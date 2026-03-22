@@ -1,0 +1,14 @@
+CompileFlags:
+  Add: [
+    "-Wno-unknown-warning-option",
+    "-Wno-unused-command-line-argument",
+    "-D__XTENSA__",
+    "-DARDUINO=10812",
+    "-DESP32"
+  ]
+  Remove: [
+    "-mlongcalls",
+    "-mlong-calls",
+    "-fno-tree-switch-conversion",
+    "-fstrict-volatile-bitfields"
+  ]
