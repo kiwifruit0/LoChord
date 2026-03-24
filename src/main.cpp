@@ -1,25 +1,24 @@
-#include "Config/config.h"
+#include "USB.h"
+#include "USBCDC.h"
 #include <Arduino.h>
-#include <Button.h>
 
-Button buttons[NUM_BUTTONS];
+USBCDC USBSerial;
 
 void setup() {
-  Serial.begin(115200);
-  for (int i = 0; i < NUM_BUTTONS; i++) {
-    buttons[i].begin(buttonPins[i]);
+  USB.begin();
+  USBSerial.begin(115200);
+
+  delay(2000);
+
+  // Wait until host is ready (important)
+  while (!USBSerial) {
+    delay(10);
   }
+
+  USBSerial.println("USB CDC DIRECT");
 }
 
 void loop() {
-  // logic
-  for (int i = 0; i < NUM_BUTTONS; i++) {
-    buttons[i].update();
-
-    if (buttons[i].wasPressed()) {
-      Serial.println("Button " + String(i) + " was pressed!");
-    } else if (buttons[i].wasReleased()) {
-      Serial.println("Button " + String(i) + " was released!");
-    }
-  }
+  USBSerial.println("HELLO");
+  delay(1000);
 }

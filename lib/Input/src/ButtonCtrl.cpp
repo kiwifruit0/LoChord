@@ -1,6 +1,6 @@
-#include "Button.h"
+#include "ButtonCtrl.h"
 
-void Button::begin(int pin) {
+void ButtonCtrl::begin(int pin) {
   _pin = pin;
   pinMode(_pin, INPUT_PULLUP);
 
@@ -8,17 +8,17 @@ void Button::begin(int pin) {
   _lastState = HIGH;
 }
 
-void Button::update() {
+void ButtonCtrl::update() {
   _lastState = _currentState;
   _currentState = digitalRead(_pin);
 }
 
-bool Button::isPressed() { return _currentState == LOW; }
+bool ButtonCtrl::isPressed() { return _currentState == LOW; }
 
-bool Button::wasPressed() {
+bool ButtonCtrl::wasPressed() {
   return (_lastState == HIGH && _currentState == LOW);
 }
 
-bool Button::wasReleased() {
+bool ButtonCtrl::wasReleased() {
   return (_lastState == LOW && _currentState == HIGH);
 }
