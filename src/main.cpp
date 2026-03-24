@@ -1,8 +1,11 @@
 #include "USB.h"
 #include "USBCDC.h"
 #include <Arduino.h>
+#include <ButtonCtrl.h>
+#include <Control_Surface.h>
 
 USBCDC USBSerial;
+USBDebugMIDI_Interface midi{USBSerial};
 
 void setup() {
   USB.begin();
@@ -10,7 +13,6 @@ void setup() {
 
   delay(2000);
 
-  // Wait until host is ready (important)
   while (!USBSerial) {
     delay(10);
   }
