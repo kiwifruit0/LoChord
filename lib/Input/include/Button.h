@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
 
-class ButtonCtrl {
+class Button {
 public:
   void begin(int pin);
   void update();
