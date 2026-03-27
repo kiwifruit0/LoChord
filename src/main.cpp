@@ -1,5 +1,5 @@
 #include "Button.h"
-#include "Config.h"
+#include "config.h"
 #include <Arduino.h>
 #include <USB.h>
 #include <USBMIDI.h>

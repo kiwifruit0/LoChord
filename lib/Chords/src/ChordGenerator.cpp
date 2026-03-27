@@ -5,5 +5,5 @@ ChordGenerator::ChordGenerator(Scale scale, int octave)
       octave(octave) {}
 
 int ChordGenerator::getNoteNum(int root) {
-  return octave * 12 + (int)scale.root + SCALE_INTERVALS[(int)scale.mode][root];
+  return octave * 12 + static_cast<int>(scale.root) + SCALE_INTERVALS[static_cast<size_t>(scale.mode)][root];
 }
