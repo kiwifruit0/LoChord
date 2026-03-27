@@ -1,8 +1,8 @@
-#include "Config/config.h"
-#include "USB.h"
-#include "USBMIDI.h"
+#include "Button.h"
+#include "Config.h"
 #include <Arduino.h>
-#include <Button.h>
+#include <USB.h>
+#include <USBMIDI.h>
 
 USBMIDI MIDIDevice;
 Button buttons[NUM_BUTTONS];
