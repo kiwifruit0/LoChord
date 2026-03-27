@@ -14,5 +14,28 @@ CompileFlags:
     "-fstrict-volatile-bitfields",
     "-mdisable-hardware-atomics",
     "-mfix-esp32-psram-cache-issue",
-    "-mfix-esp32-psram-cache-strategy=*",
+    "-mfix-esp32-psram-cache-strategy=*"
   ]
+---
+If:
+  PathMatch: "test/.*"
+CompileFlags:
+  Compiler: g++
+  Add:
+    - "-Ilib"
+    - "-Ilib/Chords/src"
+    - "-I.pio/libdeps/native/Unity/src"
+  Remove:
+    - "-DESP32=ESP32"
+    - "-DESP32_ARDUINO_LIB_BUILDER"
+    - "-DARDUINO_ARCH_ESP32"
+    - "-DESP_PLATFORM"
+    - "-DF_CPU=*"
+    - "-DARDUINO_VARIANT=*"
+    - "-DARDUINO_BOARD=*"
+    - "-DARDUINO_PARTITION_*"
+    - "-Ilib/Input/src"
+    - "-I/home/kiwi/.platformio/packages/framework-arduinoespressif32-libs/*"
+    - "-I/home/kiwi/.platformio/packages/framework-arduinoespressif32/*"
+    - "-I/home/kiwi/.platformio/packages/toolchain-xtensa*"
+    - "-DUNITY_INCLUDE_CONFIG_H"
