@@ -10,4 +10,6 @@ public:
   ChordGenerator(Scale scale = Scale{Notes::C}, int octave = 3);
 
   int getNoteNum(int root);
+
+  Chord chordToMidi(int root);
 };

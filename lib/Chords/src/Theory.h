@@ -20,7 +20,7 @@ enum class Notes { C, Cs, D, Ds, E, F, Fs, G, Gs, A, As, B };
 
 enum class Mode { Major, Minor };
 
-enum class Qualities { Maj, min, dim, Aug, Maj7, min7 };
+enum class Quality { Maj, min, dim, Aug, Maj7, min7 };
 
 // ------------------------------
 // structs
@@ -73,7 +73,7 @@ struct Chord {
 // ------------------------------
 
 using ScaleIntervals = std::array<int, 7>;
-using ScaleQualities = std::array<Qualities, 7>;
+using ScaleQualities = std::array<Quality, 7>;
 
 inline const std::array<ScaleIntervals, 2> SCALE_INTERVALS = {{
     {0, 2, 4, 5, 7, 9, 11}, // major
@@ -83,27 +83,26 @@ inline const std::array<ScaleIntervals, 2> SCALE_INTERVALS = {{
 inline const std::array<ScaleQualities, 2> SCALE_QUALITIES = {
     {// major
      {
-         Qualities::Maj, // I
-         Qualities::min, // ii
-         Qualities::min, // iii
-         Qualities::Maj, // IV
-         Qualities::Maj, // V
-         Qualities::min, // vi
-         Qualities::dim, // vii*
+         Quality::Maj, // I
+         Quality::min, // ii
+         Quality::min, // iii
+         Quality::Maj, // IV
+         Quality::Maj, // V
+         Quality::min, // vi
+         Quality::dim, // vii*
      },
      // minor
      {
-         Qualities::min, // i
-         Qualities::dim, // ii*
-         Qualities::Maj, // III
-         Qualities::min, // iv
-         Qualities::min, // v
-         Qualities::Maj, // VI
-         Qualities::Maj, // VII
+         Quality::min, // i
+         Quality::dim, // ii*
+         Quality::Maj, // III
+         Quality::min, // iv
+         Quality::min, // v
+         Quality::Maj, // VI
+         Quality::Maj, // VII
      }}};
 
-// triads
-inline const std::array<Chord, 6> CHORD_INTERVALS = {
+inline const std::array<Chord, 6> CHORDS = {
     // Maj
     Chord({0, 4, 7}),
     // min
@@ -127,4 +126,8 @@ inline const auto &getScaleIntervals(Mode mode) {
 
 inline const auto &getScaleQualities(Mode mode) {
   return SCALE_QUALITIES[static_cast<size_t>(mode)];
+}
+
+inline const auto &getChordFromQuality(Quality quality) {
+  return CHORDS[static_cast<size_t>(quality)];
 }
