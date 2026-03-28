@@ -1,14 +1,14 @@
 #include "Button.h"
 #include "config.h"
 #include <Arduino.h>
+#include "MidiController.h"
 #include <USB.h>
-#include <USBMIDI.h>
 
-USBMIDI MIDIDevice;
 Button buttons[NUM_BUTTONS];
+MidiController midiController;
 
 void setup() {
-  MIDIDevice.begin();
+  midiController.getMidiDevice().begin();
   USB.begin();
 
   for (int i = 0; i < NUM_BUTTONS; i++) {
@@ -24,10 +24,10 @@ void loop() {
 
     if (buttons[i].wasPressed()) {
       digitalWrite(LED_BUILTIN, HIGH);
-      MIDIDevice.noteOn(60 + i, 64, 0);
+      midiController.getMidiDevice().noteOn(60 + i, 64, 0);
     } else if (buttons[i].wasReleased()) {
       digitalWrite(LED_BUILTIN, LOW);
-      MIDIDevice.noteOff(60 + i, 0, 0);
+      midiController.getMidiDevice().noteOff(60 + i, 0, 0);
     }
   }
 }

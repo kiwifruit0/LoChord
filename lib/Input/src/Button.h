@@ -10,8 +10,8 @@ public:
   bool wasPressed();
   bool wasReleased();
 
-  private:
-    int _pin;
-    bool _currentState;
-    bool _lastState;
-  };
+private:
+  int _pin;
+  bool _currentState;
+  bool _lastState;
+};
