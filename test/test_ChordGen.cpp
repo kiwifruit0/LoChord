@@ -9,7 +9,7 @@ void test_midi_num() {
 
 void test_scale_midi_num() {
   ChordGenerator chordGen(Scale{Notes::D, Mode::Major}, 4);
-  TEST_ASSERT_EQUAL(74, chordGen.getNoteNum(1));
+  TEST_ASSERT_EQUAL(76, chordGen.getNoteNum(1));
 }
 
 
