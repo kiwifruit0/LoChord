@@ -18,7 +18,7 @@ void test_chord_in_scale() {
 
   Chord expected = Chord({74, 78, 81});
   
-  TEST_ASSERT_EQUAL_INT_ARRAY(expected.notes, actual.notes, 3);
+  TEST_ASSERT_EQUAL_INT_ARRAY(expected.notes.data(), actual.notes.data(), 3);
 }
 
 int main() {
