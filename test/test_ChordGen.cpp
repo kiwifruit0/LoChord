@@ -1,5 +1,4 @@
 #include <ChordGenerator.h>
-#include <iostream>
 #include <unity.h>
 
 void test_midi_num() {
@@ -14,7 +13,7 @@ void test_scale_midi_num() {
 
 void test_chord_in_scale() {
   ChordGenerator chordGen(Scale{Notes::D, Mode::Major}, 4);
-  Chord actual = chordGen.chordToMidi(0);
+  Chord actual = chordGen.getMidiChord(0);
 
   Chord expected = Chord({74, 78, 81});
   

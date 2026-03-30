@@ -11,5 +11,5 @@ public:
 
   int getNoteNum(int root);
 
-  Chord chordToMidi(int root);
+  Chord getMidiChord(int root);
 };
