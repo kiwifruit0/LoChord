@@ -1,14 +1,20 @@
 #include "Button.h"
+#include "Clock.h"
+#include "MidiController.h"
+#include "MidiOutput.h"
 #include "config.h"
 #include <Arduino.h>
-#include "MidiController.h"
 #include <USB.h>
 
 Button buttons[NUM_BUTTONS];
-MidiController midiController;
+
+Clock mainClock(120);
+MidiOutput midiOutput;
+ChordGenerator chordGen;
+MidiController midiController(chordGen, mainClock, midiOutput);
 
 void setup() {
-  midiController.getMidiDevice().begin();
+  midiOutput.begin();
   USB.begin();
 
   for (int i = 0; i < NUM_BUTTONS; i++) {
@@ -23,11 +29,9 @@ void loop() {
     buttons[i].update();
 
     if (buttons[i].wasPressed()) {
-      digitalWrite(LED_BUILTIN, HIGH);
-      midiController.getMidiDevice().noteOn(60 + i, 64, 0);
+      midiController.processNoteOn(i);
     } else if (buttons[i].wasReleased()) {
-      digitalWrite(LED_BUILTIN, LOW);
-      midiController.getMidiDevice().noteOff(60 + i, 0, 0);
+      midiController.processNoteOff(i);
     }
   }
 }
