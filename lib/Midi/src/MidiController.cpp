@@ -6,54 +6,54 @@ MidiController::MidiController(ChordGenerator chordGen, Clock &clock,
                                MidiOutput &output, bool chordMode,
                                float defaultVelocity, float strumAmt,
                                float randVelocityAmt)
-    : _output(output), _clock(clock), _chordGen(chordGen),
-      _chordMode(chordMode), _strumAmt(strumAmt),
-      _randVelocityAmt(randVelocityAmt), _defaultVelocity(defaultVelocity) {}
+    : output_(output), clock_(clock), chordGen_(chordGen),
+      chordMode_(chordMode), strumAmt_(strumAmt),
+      randVelocityAmt_(randVelocityAmt), defaultVelocity_(defaultVelocity) {}
 
 void MidiController::processNoteOn(int root) {
-  if (_chordMode) {
-    _activeChord = _chordGen.getMidiChord(root);
-    sendChord(_activeChord);
+  if (chordMode_) {
+    activeChord_ = chordGen_.getMidiChord(root);
+    sendChord(activeChord_);
   } else {
-    _activeChord.clear();
-    _activeChord.addNote(_chordGen.getNoteNum(root));
-    sendNote(_activeChord[0]);
+    activeChord_.clear();
+    activeChord_.addNote(chordGen_.getNoteNum(root));
+    sendNote(activeChord_[0]);
   }
 }
 
 void MidiController::processNoteOff(int root) {
   // Send note-off for all notes in the active chord
-  for (size_t i = 0; i < _activeChord.size; i++) {
-    _output.noteOff(_activeChord[i]);
+  for (size_t i = 0; i < activeChord_.size; i++) {
+    output_.noteOff(activeChord_[i]);
   }
-  _activeChord.clear();
+  activeChord_.clear();
 }
 
-void MidiController::setChordMode(bool enabled) { _chordMode = enabled; }
+void MidiController::setChordMode(bool enabled) { chordMode_ = enabled; }
 
-void MidiController::setStrumAmount(float amount) { _strumAmt = amount; }
+void MidiController::setStrumAmount(float amount) { strumAmt_ = amount; }
 
 void MidiController::setVelocity(float velocity) {
-  _defaultVelocity = velocity;
+  defaultVelocity_ = velocity;
 }
-ChordGenerator &MidiController::getChordGenerator() { return _chordGen; }
+ChordGenerator &MidiController::getChordGenerator() { return chordGen_; }
 
 uint8_t MidiController::calculateVelocity() {
-  if (_randVelocityAmt <= 0) {
-    return static_cast<uint8_t>(_defaultVelocity);
+  if (randVelocityAmt_ <= 0) {
+    return static_cast<uint8_t>(defaultVelocity_);
   }
-  int maxRandom = static_cast<int>(_defaultVelocity * _randVelocityAmt);
+  int maxRandom = static_cast<int>(defaultVelocity_ * randVelocityAmt_);
   int randomOffset = (maxRandom > 0) ? (rand() % maxRandom) : 0;
-  return static_cast<uint8_t>(_defaultVelocity - randomOffset);
+  return static_cast<uint8_t>(defaultVelocity_ - randomOffset);
 }
 
 void MidiController::sendNote(int noteNum) {
-  _output.noteOn(noteNum, calculateVelocity());
+  output_.noteOn(noteNum, calculateVelocity());
 }
 
 void MidiController::sendChord(const Chord &chord) {
   // TODO: Replace with Scheduler-based strum for non-blocking playback
-  // Currently plays all notes simultaneously (strum disabled)
+  // currently plays all notes simultaneously (strum disabled)
   for (size_t i = 0; i < chord.size; i++) {
     sendNote(chord.notes[i]);
   }

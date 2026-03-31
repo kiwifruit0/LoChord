@@ -13,5 +13,5 @@ public:
   USBMIDI &getRawMidi();
 
 private:
-  USBMIDI _midi;
+  USBMIDI midi_;
 };

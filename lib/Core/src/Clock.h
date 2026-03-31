@@ -8,13 +8,13 @@ public:
   void setBpm(int bpm);
   int getBpm() const;
 
-  // Time conversions
-  uint8_t beatsToMicros(float beats) const;
-  float microsToBeats(uint8_t micros) const;
+  // time conversions
+  uint32_t beatsToMicros(float beats) const;
+  float microsToBeats(uint32_t micros) const;
 
-  // Get interval for a note subdivision (1.0 = quarter, 0.5 = eighth, etc.)
-  uint8_t subdivisionMicros(float subdivision) const;
+  // get interval for a note subdivision (e.g. 1.0 = quarter)
+  uint32_t subdivisionMicros(float subdivision) const;
 
 private:
-  int _bpm;
+  int bpm_;
 };

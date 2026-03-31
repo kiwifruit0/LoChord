@@ -11,7 +11,7 @@ public:
   bool wasReleased();
 
 private:
-  int _pin;
-  bool _currentState;
-  bool _lastState;
+  int pin_;
+  bool currentState_;
+  bool lastState_;
 };

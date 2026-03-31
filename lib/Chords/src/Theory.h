@@ -41,11 +41,9 @@ struct Chord {
   std::array<int, MAX_CHORD_NOTES> notes;
   std::size_t size;
 
-  Chord()
-      : size(0) {};
+  Chord() : size(0) {};
 
-  Chord(std::initializer_list<int> n)
-      : size(n.size()) {
+  Chord(std::initializer_list<int> n) : size(n.size()) {
     size_t i = 0;
     for (int note : n) {
       if (i < MAX_CHORD_NOTES) {

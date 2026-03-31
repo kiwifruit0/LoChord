@@ -19,16 +19,16 @@ public:
   ChordGenerator &getChordGenerator();
 
 private:
-  MidiOutput &_output;
-  Clock &_clock;
-  ChordGenerator _chordGen;
-  bool _chordMode;
-  float _strumAmt;
-  float _randVelocityAmt;
-  float _defaultVelocity;
+  MidiOutput &output_;
+  Clock &clock_;
+  ChordGenerator chordGen_;
+  bool chordMode_;
+  float strumAmt_;
+  float randVelocityAmt_;
+  float defaultVelocity_;
 
-  // Tracks currently held notes for proper note-off
-  Chord _activeChord;
+  // tracks held notes for note off
+  Chord activeChord_;
 
   void sendChord(const Chord &chord);
   void sendNote(int noteNum);

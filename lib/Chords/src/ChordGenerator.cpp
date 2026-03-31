@@ -1,11 +1,11 @@
 #include "ChordGenerator.h"
 
 ChordGenerator::ChordGenerator(Scale scale, int octave)
-    : scale(scale),
-      octave(octave) {}
+    : scale(scale), octave(octave) {}
 
 int ChordGenerator::getNoteNum(int root) {
-  return 24 + octave * 12 + static_cast<int>(scale.root) + getScaleIntervals(scale.mode)[root];
+  return 24 + octave * 12 + static_cast<int>(scale.root) +
+         getScaleIntervals(scale.mode)[root];
 }
 
 Chord ChordGenerator::getMidiChord(int root) {

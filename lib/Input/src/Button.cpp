@@ -1,24 +1,24 @@
 #include "Button.h"
 
 void Button::begin(int pin) {
-  _pin = pin;
-  pinMode(_pin, INPUT_PULLUP);
+  pin_ = pin;
+  pinMode(pin_, INPUT_PULLUP);
 
-  _currentState = HIGH;
-  _lastState = HIGH;
+  currentState_ = HIGH;
+  lastState_ = HIGH;
 }
 
 void Button::update() {
-  _lastState = _currentState;
-  _currentState = digitalRead(_pin);
+  lastState_ = currentState_;
+  currentState_ = digitalRead(pin_);
 }
 
-bool Button::isPressed() { return _currentState == LOW; }
+bool Button::isPressed() { return currentState_ == LOW; }
 
 bool Button::wasPressed() {
-  return (_lastState == HIGH && _currentState == LOW);
+  return (lastState_ == HIGH && currentState_ == LOW);
 }
 
 bool Button::wasReleased() {
-  return (_lastState == LOW && _currentState == HIGH);
+  return (lastState_ == LOW && currentState_ == HIGH);
 }
