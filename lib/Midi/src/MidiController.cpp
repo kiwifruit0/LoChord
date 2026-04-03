@@ -6,9 +6,15 @@ MidiController::MidiController(ChordGenerator chordGen, Clock &clock,
                                MidiOutput &output, bool chordMode, bool strumOn,
                                bool arpOn, float defaultVelocity,
                                float randVelocityAmt)
-    : output_(output), clock_(clock), chordGen_(chordGen),
-      chordMode_(chordMode), strumOn_(strumOn), arpOn_(arpOn),
-      defaultVelocity_(defaultVelocity), randVelocityAmt_(randVelocityAmt) {}
+    : output_(output),
+      clock_(clock),
+      strummer_(clock),
+      chordGen_(chordGen),
+      chordMode_(chordMode),
+      strumOn_(strumOn),
+      arpOn_(arpOn),
+      defaultVelocity_(defaultVelocity),
+      randVelocityAmt_(randVelocityAmt) {}
 
 void MidiController::processNoteOn(int root, bool single) {
   if (chordMode_ && !single) {
@@ -74,7 +80,6 @@ void MidiController::sendNote(int noteNum) {
 void MidiController::sendChord(const Chord &chord) {
   if (this->strumOn_) {
     for (size_t i = 0; i < chord.size; i++) {
-      
     }
   } else if (this->arpOn_) {
     // todo: arp
@@ -82,5 +87,11 @@ void MidiController::sendChord(const Chord &chord) {
     for (size_t i = 0; i < chord.size; i++) {
       sendNote(chord[i]);
     }
+  }
+}
+
+void MidiController::update() {
+  if (strumOn_ && strummer_.shouldPlayNow()) {
+    sendNote(strummer_.getNextNoteNum());
   }
 }

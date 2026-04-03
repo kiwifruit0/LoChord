@@ -1,19 +1,21 @@
 #pragma once
 #include "Clock.h"
-#include "MidiController.h"
 #include "Theory.h"
 #include <cstdint>
 
 class Strummer {
 public:
-  Strummer(Clock &clock, MidiController &midi);
-  void update();
+  Strummer(Clock &clock);
+
+  bool shouldPlayNow();
+
+  void setChord(const Chord &chord);
 
   void clear();
 
-  void setChord(Chord chord);
-
   void setStrumAmt(uint16_t amount);
+
+  uint8_t getNextNoteNum();
 
 private:
   Chord chord_;
@@ -21,5 +23,4 @@ private:
   uint16_t strumAmt_;
   uint32_t lastTime_;
   Clock &clock_;
-  MidiController &midi_;
 };

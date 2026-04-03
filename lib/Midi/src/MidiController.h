@@ -2,6 +2,7 @@
 #include "ChordGenerator.h"
 #include "Clock.h"
 #include "MidiOutput.h"
+#include "Strummer.h"
 
 class MidiController {
 public:
@@ -20,13 +21,14 @@ public:
 
   ChordGenerator &getChordGenerator();
 
-  void sendNote(int noteNum);
+  void update();
 
 private:
   // objects
   MidiOutput &output_;
   Clock &clock_;
   ChordGenerator chordGen_;
+  Strummer strummer_;
 
   // attr
   bool chordMode_;
@@ -38,6 +40,7 @@ private:
   // tracks held notes for note off
   Chord activeChord_;
 
+  void sendNote(int noteNum);
   void sendChord(const Chord &chord);
   uint8_t calculateVelocity();
 };
