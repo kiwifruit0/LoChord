@@ -6,24 +6,32 @@
 class MidiController {
 public:
   MidiController(ChordGenerator chordGen, Clock &clock, MidiOutput &output,
-                 bool chordMode = true, float defaultVelocity = 100,
-                 float strumAmt = 0, float randVelocityAmt = 0);
+                 bool chordMode = true, bool strumOn = false,
+                 bool arpOn = false, float defaultVelocity = 100,
+                 float randVelocityAmt = 0);
 
-  void processNoteOn(int root);
+  void processNoteOn(int root, bool singleNote = false);
   void processNoteOff(int root);
 
   void setChordMode(bool enabled);
-  void setStrumAmount(float amount);
   void setVelocity(float velocity);
+  void setStrumOn(bool strumOn);
+  void setArpOn(bool arpOn);
 
   ChordGenerator &getChordGenerator();
 
+  void sendNote(int noteNum);
+
 private:
+  // objects
   MidiOutput &output_;
   Clock &clock_;
   ChordGenerator chordGen_;
+
+  // attr
   bool chordMode_;
-  float strumAmt_;
+  bool strumOn_;
+  bool arpOn_;
   float randVelocityAmt_;
   float defaultVelocity_;
 
@@ -31,6 +39,5 @@ private:
   Chord activeChord_;
 
   void sendChord(const Chord &chord);
-  void sendNote(int noteNum);
   uint8_t calculateVelocity();
 };

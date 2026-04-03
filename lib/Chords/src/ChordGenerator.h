@@ -11,5 +11,6 @@ public:
 
   int getNoteNum(int root);
 
+  // takes root and returns chord with proper midi values
   Chord getMidiChord(int root);
 };

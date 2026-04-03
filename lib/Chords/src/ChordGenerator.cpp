@@ -9,6 +9,7 @@ int ChordGenerator::getNoteNum(int root) {
 }
 
 Chord ChordGenerator::getMidiChord(int root) {
+
   Quality quality = getScaleQualities(scale.mode)[root];
   Chord chord = getChordFromQuality(quality);
   int rootNote = getNoteNum(root);

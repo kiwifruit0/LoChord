@@ -3,18 +3,20 @@
 #include <cstdlib>
 
 MidiController::MidiController(ChordGenerator chordGen, Clock &clock,
-                               MidiOutput &output, bool chordMode,
-                               float defaultVelocity, float strumAmt,
+                               MidiOutput &output, bool chordMode, bool strumOn,
+                               bool arpOn, float defaultVelocity,
                                float randVelocityAmt)
     : output_(output), clock_(clock), chordGen_(chordGen),
-      chordMode_(chordMode), strumAmt_(strumAmt),
-      randVelocityAmt_(randVelocityAmt), defaultVelocity_(defaultVelocity) {}
+      chordMode_(chordMode), strumOn_(strumOn), arpOn_(arpOn),
+      defaultVelocity_(defaultVelocity), randVelocityAmt_(randVelocityAmt) {}
 
-void MidiController::processNoteOn(int root) {
-  if (chordMode_) {
+void MidiController::processNoteOn(int root, bool single) {
+  if (chordMode_ && !single) {
+    // send chord
     activeChord_ = chordGen_.getMidiChord(root);
     sendChord(activeChord_);
   } else {
+    // send single note
     activeChord_.clear();
     activeChord_.addNote(chordGen_.getNoteNum(root));
     sendNote(activeChord_[0]);
@@ -22,7 +24,7 @@ void MidiController::processNoteOn(int root) {
 }
 
 void MidiController::processNoteOff(int root) {
-  // Send note-off for all notes in the active chord
+  // send note off for all notes in the active chord
   for (size_t i = 0; i < activeChord_.size; i++) {
     output_.noteOff(activeChord_[i]);
   }
@@ -31,14 +33,32 @@ void MidiController::processNoteOff(int root) {
 
 void MidiController::setChordMode(bool enabled) { chordMode_ = enabled; }
 
-void MidiController::setStrumAmount(float amount) { strumAmt_ = amount; }
+void MidiController::setStrumOn(bool strumOn) {
+  this->strumOn_ = strumOn;
+  if (strumOn) {
+    this->arpOn_ = 0;
+  }
+}
+
+void MidiController::setArpOn(bool arpOn) {
+  this->strumOn_ = arpOn;
+  if (arpOn) {
+    this->strumOn_ = 0;
+  }
+}
 
 void MidiController::setVelocity(float velocity) {
   defaultVelocity_ = velocity;
 }
+
 ChordGenerator &MidiController::getChordGenerator() { return chordGen_; }
 
 uint8_t MidiController::calculateVelocity() {
+  /**
+  calculates random velocity as default - random in range(0, default * random
+  amount) e.g. if default = 100 and random amount = 0.1: calculated velocity
+  is between 90 and 100
+   **/
   if (randVelocityAmt_ <= 0) {
     return static_cast<uint8_t>(defaultVelocity_);
   }
@@ -52,9 +72,15 @@ void MidiController::sendNote(int noteNum) {
 }
 
 void MidiController::sendChord(const Chord &chord) {
-  // TODO: Replace with Scheduler-based strum for non-blocking playback
-  // currently plays all notes simultaneously (strum disabled)
-  for (size_t i = 0; i < chord.size; i++) {
-    sendNote(chord.notes[i]);
+  if (this->strumOn_) {
+    for (size_t i = 0; i < chord.size; i++) {
+      
+    }
+  } else if (this->arpOn_) {
+    // todo: arp
+  } else {
+    for (size_t i = 0; i < chord.size; i++) {
+      sendNote(chord[i]);
+    }
   }
 }

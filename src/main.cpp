@@ -2,6 +2,7 @@
 #include "Clock.h"
 #include "MidiController.h"
 #include "MidiOutput.h"
+#include "Strummer.h"
 #include "config.h"
 #include <Arduino.h>
 #include <USB.h>
@@ -12,6 +13,7 @@ Clock mainClock(120);
 MidiOutput midiOutput;
 ChordGenerator chordGen;
 MidiController midiController(chordGen, mainClock, midiOutput);
+// Strummer strummer(mainClock);
 
 void setup() {
   midiOutput.begin();
@@ -34,4 +36,5 @@ void loop() {
       midiController.processNoteOff(i);
     }
   }
+  // strummer.update();
 }
