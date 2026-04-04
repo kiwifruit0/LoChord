@@ -23,6 +23,8 @@ public:
 
   void update();
 
+  Strummer getStrummer();
+
 private:
   // objects
   MidiOutput &output_;

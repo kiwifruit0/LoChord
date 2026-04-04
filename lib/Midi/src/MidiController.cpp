@@ -6,15 +6,9 @@ MidiController::MidiController(ChordGenerator chordGen, Clock &clock,
                                MidiOutput &output, bool chordMode, bool strumOn,
                                bool arpOn, float defaultVelocity,
                                float randVelocityAmt)
-    : output_(output),
-      clock_(clock),
-      strummer_(clock),
-      chordGen_(chordGen),
-      chordMode_(chordMode),
-      strumOn_(strumOn),
-      arpOn_(arpOn),
-      defaultVelocity_(defaultVelocity),
-      randVelocityAmt_(randVelocityAmt) {}
+    : output_(output), clock_(clock), strummer_(clock), chordGen_(chordGen),
+      chordMode_(chordMode), strumOn_(strumOn), arpOn_(arpOn),
+      defaultVelocity_(defaultVelocity), randVelocityAmt_(randVelocityAmt) {}
 
 void MidiController::processNoteOn(int root, bool single) {
   if (chordMode_ && !single) {
@@ -40,16 +34,16 @@ void MidiController::processNoteOff(int root) {
 void MidiController::setChordMode(bool enabled) { chordMode_ = enabled; }
 
 void MidiController::setStrumOn(bool strumOn) {
-  this->strumOn_ = strumOn;
+  strumOn_ = strumOn;
   if (strumOn) {
-    this->arpOn_ = 0;
+    arpOn_ = 0;
   }
 }
 
 void MidiController::setArpOn(bool arpOn) {
-  this->strumOn_ = arpOn;
+  strumOn_ = arpOn;
   if (arpOn) {
-    this->strumOn_ = 0;
+    strumOn_ = 0;
   }
 }
 
@@ -60,11 +54,9 @@ void MidiController::setVelocity(float velocity) {
 ChordGenerator &MidiController::getChordGenerator() { return chordGen_; }
 
 uint8_t MidiController::calculateVelocity() {
-  /**
-  calculates random velocity as default - random in range(0, default * random
-  amount) e.g. if default = 100 and random amount = 0.1: calculated velocity
-  is between 90 and 100
-   **/
+  // calculates random velocity as default - random in range(0, default * random
+  // amount) e.g. if default = 100 and random amount = 0.1: calculated velocity
+  // is between 90 and 100
   if (randVelocityAmt_ <= 0) {
     return static_cast<uint8_t>(defaultVelocity_);
   }
@@ -78,10 +70,10 @@ void MidiController::sendNote(int noteNum) {
 }
 
 void MidiController::sendChord(const Chord &chord) {
-  if (this->strumOn_) {
+  if (strumOn_) {
     for (size_t i = 0; i < chord.size; i++) {
     }
-  } else if (this->arpOn_) {
+  } else if (arpOn_) {
     // todo: arp
   } else {
     for (size_t i = 0; i < chord.size; i++) {
@@ -95,3 +87,5 @@ void MidiController::update() {
     sendNote(strummer_.getNextNoteNum());
   }
 }
+
+Strummer MidiController::getStrummer() { return strummer_; }

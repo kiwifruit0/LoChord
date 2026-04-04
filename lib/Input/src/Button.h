@@ -1,9 +1,10 @@
 #pragma once
-#include <Arduino.h>
+
+#include <cstdint>
 
 class Button {
 public:
-  void begin(int pin);
+  void begin(uint8_t pin);
   void update();
 
   bool isPressed();

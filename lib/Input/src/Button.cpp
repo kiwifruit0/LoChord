@@ -1,4 +1,5 @@
 #include "Button.h"
+#include <Arduino.h>
 
 void Button::begin(int pin) {
   pin_ = pin;
