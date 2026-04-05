@@ -13,7 +13,8 @@ public:
 
   void clear();
 
-  void setStrumAmt(uint16_t amount);
+  void setStrumDenom(uint8_t denom);
+  uint8_t getStrumDenom();
 
   uint8_t getNextNoteNum();
 
@@ -24,9 +25,13 @@ public:
 private:
   Chord chord_;
   size_t pos_;
-  uint16_t strumAmt_;
+
+  // amount of strum
+  // e.g. strumDenom = 4: every note played 1/4ths apart
+  uint8_t strumDenom_ = 8;
   uint32_t lastTime_;
   Clock &clock_;
+
   // u: up, d: down, r: random
   char8_t strumMode_ = 'u';
 

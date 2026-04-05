@@ -5,12 +5,12 @@
 Strummer::Strummer(Clock &clock) : clock_(clock) {}
 
 bool Strummer::shouldPlayNow() {
-  if (pos_ >= chord_.size || pos_ == 0) {
+  if (pos_ >= chord_.size || pos_ == -1) {
     return false;
   }
   uint32_t currTime = micros();
   // if current time is >= lastTime + 1 beat : send next note
-  if (currTime >= lastTime_ + clock_.beatsToMicros(1.0f)) {
+  if (currTime >= lastTime_ + clock_.beatsToMicros(4 / static_cast<float>(strumDenom_))) {
     lastTime_ = micros();
     return true;
   };
@@ -30,13 +30,14 @@ void Strummer::setChord(const Chord &chord) {
   }
 }
 
-void Strummer::clear() { pos_ = 0; }
+void Strummer::clear() { pos_ = -1; }
 
-void Strummer::setStrumAmt(uint16_t amount) { strumAmt_ = amount; }
+void Strummer::setStrumDenom(uint8_t amount) { strumDenom_ = amount; }
+uint8_t Strummer::getStrumDenom() {return strumDenom_; }
 
 uint8_t Strummer::getNextNoteNum() {
   if (strumMode_ == 'd') {
-    return chord_[--pos_];
+    return chord_[pos_--];
   } else {
     // both up and random iterate through chord in order
     return chord_[pos_++];

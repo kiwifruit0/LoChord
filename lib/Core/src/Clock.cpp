@@ -14,7 +14,3 @@ uint32_t Clock::beatsToMicros(float beats) const {
 float Clock::microsToBeats(uint32_t micros) const {
   return static_cast<float>(micros) * bpm_ / 60000000.0f;
 }
-
-uint32_t Clock::subdivisionMicros(float subdivision) const {
-  return beatsToMicros(subdivision);
-}

@@ -12,9 +12,6 @@ public:
   uint32_t beatsToMicros(float beats) const;
   float microsToBeats(uint32_t micros) const;
 
-  // get interval for a note subdivision (e.g. 1.0 = quarter)
-  uint32_t subdivisionMicros(float subdivision) const;
-
 private:
   int bpm_;
 };

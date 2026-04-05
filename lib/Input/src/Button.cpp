@@ -1,7 +1,7 @@
 #include "Button.h"
 #include <Arduino.h>
 
-void Button::begin(int pin) {
+void Button::begin(uint8_t pin) {
   pin_ = pin;
   pinMode(pin_, INPUT_PULLUP);
 

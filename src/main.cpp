@@ -1,5 +1,6 @@
 #include "Button.h"
 #include "Clock.h"
+#include "Joystick.h"
 #include "MidiController.h"
 #include "MidiOutput.h"
 #include "RotaryEncoder.h"
@@ -11,6 +12,7 @@
 // input hardware
 Button buttons[NUM_BUTTONS];
 RotaryEncoder encoders[NUM_MAPPABLE_ENCODERS];
+Joystick joystick;
 
 Clock mainClock(120);
 MidiOutput midiOutput;
@@ -23,14 +25,16 @@ void setup() {
 
   std::srand(micros());
 
+  // hardware setup
   for (int i = 0; i < NUM_BUTTONS; i++) {
     buttons[i].begin(buttonPins[i]);
   }
+  // for (int i = 0; i < NUM_MAPPABLE_ENCODERS; i++) {
+  //   encoders[i].begin(mappableEncoderPins[i]);
+  // }
+  joystick.begin(joystickPin);
 
-  for (int i = 0; i < NUM_MAPPABLE_ENCODERS; i++) {
-    encoders[i].begin(mappableEncoderPins[i]);
-  }
-
+  // delay for detection as a midi device
   delay(2000);
 }
 
@@ -39,9 +43,9 @@ void loop() {
     buttons[i].update();
 
     if (buttons[i].wasPressed()) {
-      midiController.processNoteOn(i);
+      midiController.processNoteOn(i, joystick.getPos());
     } else if (buttons[i].wasReleased()) {
-      midiController.processNoteOff(i);
+      midiController.processNoteOff();
     }
   }
   midiController.update();

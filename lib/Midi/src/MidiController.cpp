@@ -10,10 +10,11 @@ MidiController::MidiController(ChordGenerator chordGen, Clock &clock,
       chordMode_(chordMode), strumOn_(strumOn), arpOn_(arpOn),
       defaultVelocity_(defaultVelocity), randVelocityAmt_(randVelocityAmt) {}
 
-void MidiController::processNoteOn(int root, bool single) {
-  if (chordMode_ && !single) {
+void MidiController::processNoteOn(int root, int joystickPos) {
+  if (chordMode_) {
+    processNoteOff();
     // send chord
-    activeChord_ = chordGen_.getMidiChord(root);
+    activeChord_ = chordGen_.getMidiChord(root, joystickPos);
     sendChord(activeChord_);
   } else {
     // send single note
@@ -23,12 +24,13 @@ void MidiController::processNoteOn(int root, bool single) {
   }
 }
 
-void MidiController::processNoteOff(int root) {
+void MidiController::processNoteOff() {
   // send note off for all notes in the active chord
   for (size_t i = 0; i < activeChord_.size; i++) {
     output_.noteOff(activeChord_[i]);
   }
   activeChord_.clear();
+  strummer_.clear();
 }
 
 void MidiController::setChordMode(bool enabled) { chordMode_ = enabled; }
@@ -71,8 +73,7 @@ void MidiController::sendNote(int noteNum) {
 
 void MidiController::sendChord(const Chord &chord) {
   if (strumOn_) {
-    for (size_t i = 0; i < chord.size; i++) {
-    }
+    strummer_.setChord(chord);
   } else if (arpOn_) {
     // todo: arp
   } else {
