@@ -9,6 +9,7 @@ public:
 
   bool wasChanged();
 
+  // returns a value from 0-9 representing the joystick position
   uint8_t getPos();
 
 private:

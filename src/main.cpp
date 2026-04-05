@@ -20,6 +20,7 @@ ChordGenerator chordGen;
 MidiController midiController(chordGen, mainClock, midiOutput);
 
 void setup() {
+  Serial.begin(115200);
   midiOutput.begin();
   USB.begin();
 
@@ -44,9 +45,11 @@ void loop() {
 
     if (buttons[i].wasPressed()) {
       midiController.processNoteOn(i, joystick.getPos());
+      Serial.println("Button " + String(i) + " pressed. Joystick pos: " + String(joystick.getPos()));
     } else if (buttons[i].wasReleased()) {
       midiController.processNoteOff();
     }
   }
   midiController.update();
+
 }

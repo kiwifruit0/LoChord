@@ -55,9 +55,11 @@ struct Chord {
   std::array<int, MAX_CHORD_NOTES> notes;
   std::size_t size;
 
-  Chord() : size(0) {};
+  Chord()
+      : size(0) {};
 
-  Chord(std::initializer_list<int> n) : size(n.size()) {
+  Chord(std::initializer_list<int> n)
+      : size(n.size()) {
     size_t i = 0;
     for (int note : n) {
       if (i < MAX_CHORD_NOTES) {
@@ -176,9 +178,9 @@ inline const std::array<Chord, 13> CHORDS = {
     // min9
     Chord({0, 3, 7, 10, 14}),
     // sus2
-    Chord({0, 2, 6}),
+    Chord({0, 2, 7}),
     // sus4
-    Chord({0, 4, 6}),
+    Chord({0, 5, 7}),
     // dom7
     Chord({0, 4, 8}),
     // dim7
@@ -189,10 +191,10 @@ inline const std::array<Chord, 13> CHORDS = {
 // ------------------------------
 // helpers
 // ------------------------------
+
 inline const auto &getScaleIntervals(Mode mode) {
   return SCALE_INTERVALS[static_cast<size_t>(mode)];
 }
-
 
 inline const auto &getQualityInScale(Mode scaleMode, int root) {
   return SCALE_QUALITIES[static_cast<size_t>(scaleMode)][root];

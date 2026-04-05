@@ -15,4 +15,4 @@ const int uiEncoderPin = 23;
 const uint8_t mappableEncoderPins[NUM_MAPPABLE_ENCODERS] = {1, 2};
 
 // joystick
-const uint8_t joystickPin = 3;
+const uint8_t joystickPin = 4;
