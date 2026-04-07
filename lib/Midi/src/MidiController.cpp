@@ -15,20 +15,33 @@ MidiController::MidiController(ChordGenerator chordGen, Clock &clock,
       randVelocityAmt_(randVelocityAmt) {}
 
 void MidiController::processNoteOn(int root, int joystickPos) {
+  // Stop any currently playing chord (when starting a new one)
+  stopCurrentChord();
+  
   if (chordMode_) {
-    processNoteOff();
     // send chord
     activeChord_ = chordGen_.getMidiChord(root, joystickPos);
+    activeRoot_ = root;  // Track which button/root started this chord
     sendChord(activeChord_);
   } else {
     // send single note
     activeChord_.clear();
     activeChord_.addNote(chordGen_.getNoteNum(root));
+    activeRoot_ = root;
     sendNote(activeChord_[0]);
   }
 }
 
-void MidiController::processNoteOff() {
+void MidiController::processNoteOff(int root) {
+  // Only stop the chord if this button/root is the one that started it
+  if (root != activeRoot_) {
+    return;  // Ignore release of buttons that didn't start the current chord
+  }
+  
+  stopCurrentChord();
+}
+
+void MidiController::stopCurrentChord() {
   // send note off for all notes in the active chord
   for (size_t i = 0; i < activeChord_.size; i++) {
     output_.noteOff(activeChord_[i]);
@@ -40,6 +53,9 @@ void MidiController::processNoteOff() {
     output_.noteOff(lastArpNote_);
     lastArpNote_ = -1;
   }
+  
+  // Clear the active root
+  activeRoot_ = -1;
   
   sequencer_.clear();
 }

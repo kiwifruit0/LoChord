@@ -47,7 +47,7 @@ void loop() {
       midiController.processNoteOn(i, joystick.getPos());
       Serial.println("Button " + String(i) + " pressed. Joystick pos: " + String(joystick.getPos()));
     } else if (buttons[i].wasReleased()) {
-      midiController.processNoteOff();
+      midiController.processNoteOff(i);
     }
   }
   midiController.update();

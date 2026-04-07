@@ -12,7 +12,7 @@ public:
                  float randVelocityAmt = 0);
 
   void processNoteOn(int root, int joystickPos);
-  void processNoteOff();
+  void processNoteOff(int root);
 
   void setChordMode(bool enabled);
   void setVelocity(float velocity);
@@ -40,10 +40,14 @@ private:
   // tracks held notes for note off
   Chord activeChord_;
   
+  // tracks which root/button started the current chord
+  int activeRoot_ = -1;
+  
   // tracks the last arp note playing (for note-off in arp mode)
   int lastArpNote_ = -1;
 
   void sendNote(int noteNum);
   void sendChord(const Chord &chord);
+  void stopCurrentChord();
   uint8_t calculateVelocity();
 };
