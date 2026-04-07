@@ -2,7 +2,7 @@
 #include "ChordGenerator.h"
 #include "Clock.h"
 #include "MidiOutput.h"
-#include "Strummer.h"
+#include "Sequencer.h"
 
 class MidiController {
 public:
@@ -23,19 +23,17 @@ public:
 
   void update();
 
-  Strummer getStrummer();
+  Sequencer getSequencer();
 
 private:
   // objects
   MidiOutput &output_;
   Clock &clock_;
   ChordGenerator chordGen_;
-  Strummer strummer_;
+  Sequencer sequencer_;
 
   // attr
   bool chordMode_;
-  bool strumOn_;
-  bool arpOn_;
   float randVelocityAmt_;
   float defaultVelocity_;
 

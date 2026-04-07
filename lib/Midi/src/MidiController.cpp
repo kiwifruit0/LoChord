@@ -6,9 +6,13 @@ MidiController::MidiController(ChordGenerator chordGen, Clock &clock,
                                MidiOutput &output, bool chordMode, bool strumOn,
                                bool arpOn, float defaultVelocity,
                                float randVelocityAmt)
-    : output_(output), clock_(clock), strummer_(clock), chordGen_(chordGen),
-      chordMode_(chordMode), strumOn_(strumOn), arpOn_(arpOn),
-      defaultVelocity_(defaultVelocity), randVelocityAmt_(randVelocityAmt) {}
+    : output_(output),
+      clock_(clock),
+      sequencer_(clock),
+      chordGen_(chordGen),
+      chordMode_(chordMode),
+      defaultVelocity_(defaultVelocity),
+      randVelocityAmt_(randVelocityAmt) {}
 
 void MidiController::processNoteOn(int root, int joystickPos) {
   if (chordMode_) {
@@ -30,24 +34,10 @@ void MidiController::processNoteOff() {
     output_.noteOff(activeChord_[i]);
   }
   activeChord_.clear();
-  strummer_.clear();
+  sequencer_.clear();
 }
 
 void MidiController::setChordMode(bool enabled) { chordMode_ = enabled; }
-
-void MidiController::setStrumOn(bool strumOn) {
-  strumOn_ = strumOn;
-  if (strumOn) {
-    arpOn_ = 0;
-  }
-}
-
-void MidiController::setArpOn(bool arpOn) {
-  strumOn_ = arpOn;
-  if (arpOn) {
-    strumOn_ = 0;
-  }
-}
 
 void MidiController::setVelocity(float velocity) {
   defaultVelocity_ = velocity;
@@ -72,10 +62,8 @@ void MidiController::sendNote(int noteNum) {
 }
 
 void MidiController::sendChord(const Chord &chord) {
-  if (strumOn_) {
-    strummer_.setChord(chord);
-  } else if (arpOn_) {
-    // todo: arp
+  if (sequencer_.isEnabled()) {
+    sequencer_.setChord(chord);
   } else {
     for (size_t i = 0; i < chord.size; i++) {
       sendNote(chord[i]);
@@ -84,9 +72,9 @@ void MidiController::sendChord(const Chord &chord) {
 }
 
 void MidiController::update() {
-  if (strumOn_ && strummer_.shouldPlayNow()) {
-    sendNote(strummer_.getNextNoteNum());
+  if (sequencer_.isEnabled() && sequencer_.shouldPlayNow()) {
+    sendNote(sequencer_.getNextNoteNum());
   }
 }
 
-Strummer MidiController::getStrummer() { return strummer_; }
+Sequencer MidiController::getSequencer() { return sequencer_; }
