@@ -150,6 +150,20 @@ void test_edge_case_two_notes() {
   TEST_ASSERT_EQUAL(67, seq.getNextNoteNum());
 }
 
+void test_isArpOn() {
+  seq.setStrumOn(true);
+  TEST_ASSERT_FALSE(seq.isArpOn());
+  TEST_ASSERT_TRUE(seq.isEnabled());
+  
+  seq.setArpOn(true);
+  TEST_ASSERT_TRUE(seq.isArpOn());
+  TEST_ASSERT_TRUE(seq.isEnabled());
+  
+  seq.setArpOn(false);
+  TEST_ASSERT_FALSE(seq.isArpOn());
+  TEST_ASSERT_FALSE(seq.isEnabled());
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(test_arp_mode_up);
@@ -162,5 +176,6 @@ int main() {
   RUN_TEST(test_mutual_exclusivity);
   RUN_TEST(test_edge_case_single_note);
   RUN_TEST(test_edge_case_two_notes);
+  RUN_TEST(test_isArpOn);
   UNITY_END();
 }

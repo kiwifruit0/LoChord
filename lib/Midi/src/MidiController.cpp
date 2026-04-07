@@ -34,6 +34,13 @@ void MidiController::processNoteOff() {
     output_.noteOff(activeChord_[i]);
   }
   activeChord_.clear();
+  
+  // send note off for last arp note if any
+  if (lastArpNote_ != -1) {
+    output_.noteOff(lastArpNote_);
+    lastArpNote_ = -1;
+  }
+  
   sequencer_.clear();
 }
 
@@ -73,7 +80,18 @@ void MidiController::sendChord(const Chord &chord) {
 
 void MidiController::update() {
   if (sequencer_.isEnabled() && sequencer_.shouldPlayNow()) {
-    sendNote(sequencer_.getNextNoteNum());
+    // In arp mode: turn off the previous note before playing the next one
+    if (sequencer_.isArpOn() && lastArpNote_ != -1) {
+      output_.noteOff(lastArpNote_);
+    }
+    
+    uint8_t nextNote = sequencer_.getNextNoteNum();
+    sendNote(nextNote);
+    
+    // Track the note for arp mode
+    if (sequencer_.isArpOn()) {
+      lastArpNote_ = nextNote;
+    }
   }
 }
 

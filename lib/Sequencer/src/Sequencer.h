@@ -19,6 +19,7 @@ public:
   void setArpOn(bool arpOn);
 
   bool isEnabled();
+  bool isArpOn();
 
   void setArpMode(ArpMode mode);
   ArpMode getArpMode();

@@ -39,6 +39,9 @@ private:
 
   // tracks held notes for note off
   Chord activeChord_;
+  
+  // tracks the last arp note playing (for note-off in arp mode)
+  int lastArpNote_ = -1;
 
   void sendNote(int noteNum);
   void sendChord(const Chord &chord);

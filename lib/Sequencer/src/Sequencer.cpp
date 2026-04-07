@@ -100,6 +100,8 @@ void Sequencer::setArpOn(bool arpOn) {
 
 bool Sequencer::isEnabled() { return strumOn_ || arpOn_; }
 
+bool Sequencer::isArpOn() { return arpOn_; }
+
 void Sequencer::clear() { pos_ = -1; }
 
 void Sequencer::setStrumDenom(uint8_t amount) { strumDenom_ = amount; }
