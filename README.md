@@ -17,6 +17,6 @@ pio run -t upload
 
 Serial monitor:
 ```
-picocom -b 115200 /dev/ttyACM0
+pio device monitor
 ```
 Exit with `Ctrl+A` then `Ctrl+X`

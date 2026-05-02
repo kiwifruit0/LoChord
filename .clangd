@@ -5,7 +5,7 @@ CompileFlags:
     "-D__XTENSA__",
     "-DARDUINO=10812",
     "-DESP32",
-    "-D__GLIBC_USE(x)=0"
+    "-isysroot/home/kiwi/.platformio/packages/toolchain-xtensa-esp32s3/xtensa-esp32s3-elf"
   ]
   Remove: [
     "-mlongcalls",
@@ -29,7 +29,7 @@ CompileFlags:
     - "-DESP32=ESP32"
     - "-DESP32_ARDUINO_LIB_BUILDER"
     - "-DARDUINO_ARCH_ESP32"
-    - "-DESP_PLATFORM"
+    - "-ESP_PLATFORM"
     - "-DF_CPU=*"
     - "-DARDUINO_VARIANT=*"
     - "-DARDUINO_BOARD=*"

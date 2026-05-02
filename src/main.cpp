@@ -6,6 +6,7 @@
 #include "RotaryEncoder.h"
 #include "config.h"
 #include <Arduino.h>
+#include <TFT_eSPI.h>
 #include <USB.h>
 #include <cstdlib>
 
@@ -26,30 +27,42 @@ void setup() {
 
   std::srand(micros());
 
-  // hardware setup
-  for (int i = 0; i < NUM_BUTTONS; i++) {
-    buttons[i].begin(buttonPins[i]);
-  }
+  // // hardware setup
+  // for (int i = 0; i < NUM_BUTTONS; i++) {
+  //   buttons[i].begin(buttonPins[i]);
+  // }
   // for (int i = 0; i < NUM_MAPPABLE_ENCODERS; i++) {
   //   encoders[i].begin(mappableEncoderPins[i]);
   // }
-  joystick.begin(joystickPin);
+  // joystick.begin(joystickPin);
 
   // delay for detection as a midi device
   delay(2000);
 }
 
 void loop() {
-  for (int i = 0; i < NUM_BUTTONS; i++) {
-    buttons[i].update();
-
-    if (buttons[i].wasPressed()) {
-      midiController.processNoteOn(i, joystick.getPos());
-      Serial.println("Button " + String(i) + " pressed. Joystick pos: " + String(joystick.getPos()));
-    } else if (buttons[i].wasReleased()) {
-      midiController.processNoteOff(i);
-    }
-  }
+  // joystick.update();
+  // for (int i = 0; i < NUM_BUTTONS; i++) {
+  //   buttons[i].update();
+  //
+  //   if (buttons[i].wasPressed() || joystick.wasChanged()) {
+  //     midiController.processNoteOn(i, joystick.getPos());
+  //     Serial.println("Button " + String(i) + " pressed. Joystick pos: " +
+  //     String(joystick.getPos()));
+  //   } else if (buttons[i].wasReleased()) {
+  //     midiController.processNoteOff(i);
+  //   }
+  // }
   midiController.update();
 
+  Serial.print("MOSI: ");
+  Serial.println(MOSI);
+  Serial.print("MISO: ");
+  Serial.println(MISO);
+  Serial.print("SCK: ");
+  Serial.println(SCK);
+  Serial.print("SS: ");
+  Serial.println(SS);
+
+  delay(1000);
 }
