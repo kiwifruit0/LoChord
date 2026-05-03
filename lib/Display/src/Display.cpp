@@ -1,18 +1,9 @@
 #include "Display.h"
 #include "ui.h"
-
-// ── Pin config ────────────────────────────────────────
-#define LCD_DC 9
-#define LCD_CS 10
-#define LCD_RST 8
-#define LCD_SCK 12
-#define LCD_MOSI 11
-#define LCD_MISO -1
-#define LCD_BL 17
+#include "config.h"
 
 #define LCD_HOR_RES 142
 #define LCD_VER_RES 428
-#define LCD_SPI_HZ 40000000
 
 // ── Static members ────────────────────────────────────
 uint8_t Display::_drawBuf[LCD_HOR_RES * 40 * 2];
@@ -23,16 +14,16 @@ Display::Display() {}
 // ── Public ────────────────────────────────────────────
 void Display::begin() {
   // Backlight + GPIO
-  pinMode(LCD_BL, OUTPUT);
-  digitalWrite(LCD_BL, HIGH);
-  pinMode(LCD_DC, OUTPUT);
-  pinMode(LCD_CS, OUTPUT);
-  digitalWrite(LCD_CS, HIGH);
-  pinMode(LCD_RST, OUTPUT);
+  pinMode(PIN_LCD_BL, OUTPUT);
+  digitalWrite(PIN_LCD_BL, HIGH);
+  pinMode(PIN_LCD_DC, OUTPUT);
+  pinMode(PIN_LCD_CS, OUTPUT);
+  digitalWrite(PIN_LCD_CS, HIGH);
+  pinMode(PIN_LCD_RST, OUTPUT);
 
   reset();
 
-  SPI.begin(LCD_SCK, LCD_MISO, LCD_MOSI, LCD_CS);
+  SPI.begin(PIN_LCD_SCK, PIN_LCD_MISO, PIN_LCD_MOSI, PIN_LCD_CS);
   delay(100);
 
   // LVGL
@@ -60,39 +51,39 @@ void Display::update() {
 uint32_t Display::getTick() { return millis(); }
 
 void Display::reset() {
-  digitalWrite(LCD_RST, HIGH);
+  digitalWrite(PIN_LCD_RST, HIGH);
   delay(100);
-  digitalWrite(LCD_RST, LOW);
+  digitalWrite(PIN_LCD_RST, LOW);
   delay(120);
-  digitalWrite(LCD_RST, HIGH);
+  digitalWrite(PIN_LCD_RST, HIGH);
   delay(120);
 }
 
 void Display::sendCmd(lv_display_t *disp, const uint8_t *cmd, size_t cmd_size,
                       const uint8_t *param, size_t param_size) {
   SPI.beginTransaction(SPISettings(LCD_SPI_HZ, MSBFIRST, SPI_MODE0));
-  digitalWrite(LCD_CS, LOW);
-  digitalWrite(LCD_DC, LOW);
+  digitalWrite(PIN_LCD_CS, LOW);
+  digitalWrite(PIN_LCD_DC, LOW);
   SPI.transferBytes(cmd, nullptr, cmd_size);
   if (param && param_size > 0) {
-    digitalWrite(LCD_DC, HIGH);
+    digitalWrite(PIN_LCD_DC, HIGH);
     SPI.transferBytes(param, nullptr, param_size);
   }
-  digitalWrite(LCD_CS, HIGH);
+  digitalWrite(PIN_LCD_CS, HIGH);
   SPI.endTransaction();
 }
 
 void Display::sendColor(lv_display_t *disp, const uint8_t *cmd, size_t cmd_size,
                         uint8_t *param, size_t param_size) {
   SPI.beginTransaction(SPISettings(LCD_SPI_HZ, MSBFIRST, SPI_MODE0));
-  digitalWrite(LCD_CS, LOW);
-  digitalWrite(LCD_DC, LOW);
+  digitalWrite(PIN_LCD_CS, LOW);
+  digitalWrite(PIN_LCD_DC, LOW);
   SPI.transferBytes(cmd, nullptr, cmd_size);
   if (param && param_size > 0) {
-    digitalWrite(LCD_DC, HIGH);
+    digitalWrite(PIN_LCD_DC, HIGH);
     SPI.transferBytes(param, nullptr, param_size);
   }
-  digitalWrite(LCD_CS, HIGH);
+  digitalWrite(PIN_LCD_CS, HIGH);
   SPI.endTransaction();
   lv_display_flush_ready(disp);
 }

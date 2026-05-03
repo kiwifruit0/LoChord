@@ -11,6 +11,11 @@
     "styles.h",
     "ui.c",
     "ui.h",
+    "ui_font_press_start2_p_16.c",
+    "ui_font_press_start2_p_24.c",
+    "ui_font_press_start2_p_32.c",
+    "ui_font_press_start2_p_8.c",
+    "ui_image_pixil.c",
     "vars.h"
   ]
 }

@@ -1,6 +1,6 @@
 #include "Button.h"
 #include "Clock.h"
-#include "Display.h"        // ← add
+#include "Display.h"
 #include "Joystick.h"
 #include "MidiController.h"
 #include "MidiOutput.h"
@@ -17,7 +17,7 @@ Clock mainClock(120);
 MidiOutput midiOutput;
 ChordGenerator chordGen;
 MidiController midiController(chordGen, mainClock, midiOutput);
-Display display;                // ← add
+Display display;
 
 void setup() {
     Serial.begin(115200);
@@ -28,14 +28,14 @@ void setup() {
     for (int i = 0; i < NUM_BUTTONS; i++)         buttons[i].begin(buttonPins[i]);
     for (int i = 0; i < NUM_MAPPABLE_ENCODERS; i++) encoders[i].begin(mappableEncoderPins[i]);
     joystick.begin(joystickPin);
-    display.begin();            // ← add
+    display.begin();
 
     delay(2000);
 }
 
 void loop() {
     joystick.update();
-    display.update();           // ← add
+    display.update();
 
     for (int i = 0; i < NUM_BUTTONS; i++) {
         buttons[i].update();

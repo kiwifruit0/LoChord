@@ -30,10 +30,91 @@ void create_screen_main() {
     {
         lv_obj_t *parent_obj = obj;
         {
+            lv_obj_t *obj = lv_obj_create(parent_obj);
+            objects.obj0 = obj;
+            lv_obj_set_pos(obj, 0, 0);
+            lv_obj_set_size(obj, 428, 142);
+            lv_obj_set_style_pad_left(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_top(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_right(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_pad_bottom(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_radius(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_color(obj, lv_color_hex(0xeabbdf), LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_bg_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+        }
+        {
             lv_obj_t *obj = lv_label_create(parent_obj);
-            lv_obj_set_pos(obj, 158, 63);
+            lv_obj_set_pos(obj, 28, 59);
             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
-            lv_label_set_text_static(obj, "Hello, world!");
+            lv_obj_set_style_text_font(obj, &ui_font_press_start2_p_24, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_label_set_text_static(obj, "i love esp32 fr");
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            lv_obj_set_pos(obj, 54, 20);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pixil);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            lv_obj_set_pos(obj, 14, 79);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pixil);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            lv_obj_set_pos(obj, 158, 94);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pixil);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            lv_obj_set_pos(obj, 238, 30);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pixil);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            lv_obj_set_pos(obj, 270, 94);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pixil);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            lv_obj_set_pos(obj, 142, 20);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pixil);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            lv_obj_set_pos(obj, 330, 32);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pixil);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            lv_obj_set_pos(obj, 176, 102);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pixil);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            lv_obj_set_pos(obj, 94, 20);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pixil);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            lv_obj_set_pos(obj, 340, 98);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pixil);
+        }
+        {
+            lv_obj_t *obj = lv_image_create(parent_obj);
+            lv_obj_set_pos(obj, 294, 88);
+            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+            lv_image_set_src(obj, &img_pixil);
         }
     }
     
@@ -61,6 +142,10 @@ void tick_screen_by_id(enum ScreensEnum screenId) {
 //
 
 ext_font_desc_t fonts[] = {
+    { "PressStart2P-8", &ui_font_press_start2_p_8 },
+    { "PressStart2P-16", &ui_font_press_start2_p_16 },
+    { "PressStart2P-24", &ui_font_press_start2_p_24 },
+    { "PressStart2P-32", &ui_font_press_start2_p_32 },
 #if LV_FONT_MONTSERRAT_8
     { "MONTSERRAT_8", &lv_font_montserrat_8 },
 #endif
