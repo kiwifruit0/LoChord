@@ -1,19 +1,16 @@
 #include "Display.h"
-#include "ui.h"
 #include "config.h"
+#include "ui.h"
 
 #define LCD_HOR_RES 142
 #define LCD_VER_RES 428
 
-// ── Static members ────────────────────────────────────
 uint8_t Display::_drawBuf[LCD_HOR_RES * 40 * 2];
 
-// ── Constructor ───────────────────────────────────────
 Display::Display() {}
 
-// ── Public ────────────────────────────────────────────
 void Display::begin() {
-  // Backlight + GPIO
+  // backlight + gpio
   pinMode(PIN_LCD_BL, OUTPUT);
   digitalWrite(PIN_LCD_BL, HIGH);
   pinMode(PIN_LCD_DC, OUTPUT);
@@ -47,7 +44,6 @@ void Display::update() {
   ui_tick();
 }
 
-// ── Private static callbacks ──────────────────────────
 uint32_t Display::getTick() { return millis(); }
 
 void Display::reset() {

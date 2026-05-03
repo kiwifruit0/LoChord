@@ -8,7 +8,7 @@
 const uint8_t buttonPins[NUM_BUTTONS] = {42, 41, 40, 39, 38, 37, 36};
 
 // encoders
-const int uiEncoderPin = 23;
+#define PIN_UI_ENCODER = 23;
 
 #define NUM_MAPPABLE_ENCODERS 2
 

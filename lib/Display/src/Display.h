@@ -7,7 +7,7 @@ class Display {
 public:
   Display();
   void begin();
-  void update(); // call in loop()
+  void update();
 
 private:
   static void sendCmd(lv_display_t *disp, const uint8_t *cmd, size_t cmd_size,
