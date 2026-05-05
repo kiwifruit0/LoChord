@@ -25,27 +25,29 @@ void setup() {
   USB.begin();
   std::srand(micros());
 
-  for (int i = 0; i < NUM_BUTTONS; i++)
-    buttons[i].begin(buttonPins[i]);
-  for (int i = 0; i < NUM_MAPPABLE_ENCODERS; i++)
-    encoders[i].begin(mappableEncoderPins[i]);
-  joystick.begin(joystickPin);
+  // for (int i = 0; i < NUM_BUTTONS; i++)
+  //   buttons[i].begin(buttonPins[i]);
+  // for (int i = 0; i < NUM_MAPPABLE_ENCODERS; i++)
+  //   encoders[i].begin(mappableEncoderPins[i]);
+  joystick.begin(PIN_JOYSTICK_UD, PIN_JOYSTICK_LR, PIN_JOYSTICK_BUTTON);
   display.begin();
 
   delay(2000);
 }
 
 void loop() {
-  joystick.update();
+  // joystick.update();
   display.update();
 
-  for (int i = 0; i < NUM_BUTTONS; i++) {
-    buttons[i].update();
-    if (buttons[i].wasPressed() || joystick.wasChanged()) {
-      midiController.processNoteOn(i, joystick.getPos());
-    } else if (buttons[i].wasReleased()) {
-      midiController.processNoteOff(i);
-    }
-  }
-  midiController.update();
+  // for (int i = 0; i < NUM_BUTTONS; i++) {
+  //   buttons[i].update();
+  //   if (buttons[i].wasPressed() || joystick.wasChanged()) {
+  //     midiController.processNoteOn(i, joystick.getPos());
+  //   } else if (buttons[i].wasReleased()) {
+  //     midiController.processNoteOff(i);
+  //   }
+  // }
+  // midiController.update();
+  delay(500);
+  Serial.println(joystick.getButton().isPressed());
 }
