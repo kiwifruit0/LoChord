@@ -1,5 +1,6 @@
 #include "Display.h"
 #include "config.h"
+#include "screens.h"
 #include "ui.h"
 
 #define LCD_HOR_RES 142
@@ -37,6 +38,7 @@ void Display::begin() {
                          LV_DISPLAY_RENDER_MODE_PARTIAL);
 
   ui_init();
+  change_color_theme(THEME_ID_NORD);
 }
 
 void Display::update() {

@@ -22,6 +22,15 @@ typedef struct _objects_t {
     lv_obj_t *chord_quality_label;
     lv_obj_t *chord_notes_label;
     lv_obj_t *obj1;
+    lv_obj_t *chord_matrix;
+    lv_obj_t *obj2;
+    lv_obj_t *bpm_label;
+    lv_obj_t *obj3;
+    lv_obj_t *channel_label;
+    lv_obj_t *obj4;
+    lv_obj_t *clock_label;
+    lv_obj_t *ready_label;
+    lv_obj_t *usb_label;
 } objects_t;
 
 extern objects_t objects;
@@ -39,18 +48,22 @@ void create_screens();
 enum Themes {
     THEME_ID_DEFAULT,
     THEME_ID_PURPLE_DARK,
+    THEME_ID_NORD,
 };
 enum Colors {
-    COLOR_ID_ACCENT1,
-    COLOR_ID_ACCENT2,
-    COLOR_ID_GREY1,
     COLOR_ID_BACKGROUND,
     COLOR_ID_DARK1,
     COLOR_ID_DARK2,
+    COLOR_ID_GREY1,
     COLOR_ID_LIGHT1,
+    COLOR_ID_ACCENT1,
+    COLOR_ID_ACCENT2,
+    COLOR_ID_ALT1,
+    COLOR_ID_ALT2,
+    COLOR_ID_ALT3,
 };
 void change_color_theme(uint32_t themeIndex);
-extern uint32_t theme_colors[2][7];
+extern uint32_t theme_colors[3][10];
 extern uint32_t active_theme_index;
 
 #ifdef __cplusplus
