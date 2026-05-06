@@ -2,10 +2,10 @@
   "navigation": {
     "selectedUserPageObject": "[lochord.eez-project]:/userPages/0",
     "selectedStyleObject": "[lochord.eez-project]:/lvglStyles/styles/2",
-    "selectedThemeObject": "[lochord.eez-project]:/themes/1",
-    "selectedThemeColorObject": "[lochord.eez-project]:/colors/0",
-    "selectedFontObject": "[lochord.eez-project]:/fonts/4",
-    "selectedBitmapObject": "[lochord.eez-project]:/bitmaps/0",
+    "selectedThemeObject": "[lochord.eez-project]:/themes/2",
+    "selectedThemeColorObject": "[lochord.eez-project]:/colors/5",
+    "selectedFontObject": "[lochord.eez-project]:/fonts/-1",
+    "selectedBitmapObject": "[lochord.eez-project]:/bitmaps/-1",
     "subnavigationSelectedItems": {}
   },
   "layoutModel": {
@@ -194,7 +194,7 @@
             {
               "type": "tabset",
               "id": "EDITORS",
-              "weight": 30.1598519134338,
+              "weight": 42.38196115129734,
               "selected": 1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
@@ -222,12 +222,13 @@
                   },
                   "icon": "svg:page"
                 }
-              ]
+              ],
+              "active": true
             },
             {
               "type": "tabset",
               "id": "#00adeab0-f74d-4d26-bdc0-629f6d2f7bc8",
-              "weight": 49.14006861223363,
+              "weight": 36.91795937437012,
               "children": [
                 {
                   "type": "tab",
@@ -237,8 +238,7 @@
                   "enableClose": false,
                   "icon": "svg:properties"
                 }
-              ],
-              "active": true
+              ]
             }
           ]
         }
@@ -899,7 +899,8 @@
                       "component": "themes",
                       "enableClose": false
                     }
-                  ]
+                  ],
+                  "active": true
                 },
                 {
                   "type": "tabset",
@@ -915,8 +916,7 @@
                       "component": "colors",
                       "enableClose": false
                     }
-                  ],
-                  "active": true
+                  ]
                 }
               ]
             }
@@ -1058,16 +1058,19 @@
           "0": {
             "0": {},
             "1": {},
-            "$selected": true
+            "2": {
+              "2": {},
+              "3": {}
+            }
           }
         }
       },
       "transform": {
         "translate": {
-          "x": -108.21014069264086,
-          "y": -81.27186147186146
+          "x": -205.94786435786472,
+          "y": -208.7397456709956
         },
-        "scale": 0.75
+        "scale": 1
       },
       "timeline": {
         "isEditorActive": false,
@@ -1077,9 +1080,7 @@
       }
     },
     "[lochord.eez-project]:/lvglStyles/styles[tree-state]": {
-      "0": {
-        "$selected": true
-      },
+      "0": {},
       "1": {
         "$selected": true
       },
@@ -1106,13 +1107,12 @@
   "lvglPart": "MAIN",
   "lvglState": "DEFAULT",
   "lvglExpandedPropertiesGroup": [
-    "BORDER",
     "TEXT",
-    "BACKGROUND"
+    "PADDING"
   ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,
-  "flowZoom": 0.75,
+  "flowZoom": 1,
   "implementationLanguage": "C",
   "openDialogDefaultPath": "/home/kiwi/Downloads/PressStart2P-Regular.ttf"
 }

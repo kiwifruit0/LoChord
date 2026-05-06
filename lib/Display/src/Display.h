@@ -9,16 +9,18 @@ public:
   void begin();
   void update();
 
+  void switchTheme(int themeId);
+
 private:
-  static void sendCmd(lv_display_t *disp, const uint8_t *cmd, size_t cmd_size,
-                      const uint8_t *param, size_t param_size);
+  static lv_display_t* _disp;
 
-  static void sendColor(lv_display_t *disp, const uint8_t *cmd, size_t cmd_size,
-                        uint8_t *param, size_t param_size);
+  static uint8_t* _drawBuf;
 
-  static void reset();
   static uint32_t getTick();
+  void reset();
 
-  lv_display_t *_disp = nullptr;
-  static uint8_t _drawBuf[142 * 40 * 2];
+  static void sendCmd(lv_display_t* disp, const uint8_t* cmd, size_t cmd_size,
+                      const uint8_t* param, size_t param_size);
+  static void sendColor(lv_display_t* disp, const uint8_t* cmd, size_t cmd_size,
+                        uint8_t* param, size_t param_size);
 };

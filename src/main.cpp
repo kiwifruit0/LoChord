@@ -5,6 +5,7 @@
 #include "MidiController.h"
 #include "MidiOutput.h"
 #include "RotaryEncoder.h"
+#include "UIController.h"
 #include "config.h"
 #include <Arduino.h>
 #include <USB.h>
@@ -18,6 +19,7 @@ MidiOutput midiOutput;
 ChordGenerator chordGen;
 MidiController midiController(chordGen, mainClock, midiOutput);
 Display display;
+UIController ui(display);
 
 void setup() {
   Serial.begin(115200);
@@ -25,11 +27,11 @@ void setup() {
   USB.begin();
   std::srand(micros());
 
-  // for (int i = 0; i < NUM_BUTTONS; i++)
-  //   buttons[i].begin(buttonPins[i]);
+  for (int i = 0; i < NUM_BUTTONS; i++)
+    buttons[i].begin(buttonPins[i]);
   // for (int i = 0; i < NUM_MAPPABLE_ENCODERS; i++)
   //   encoders[i].begin(mappableEncoderPins[i]);
-  joystick.begin(PIN_JOYSTICK_UD, PIN_JOYSTICK_LR, PIN_JOYSTICK_BUTTON);
+  // joystick.begin(PIN_JOYSTICK_UD, PIN_JOYSTICK_LR, PIN_JOYSTICK_BUTTON);
   display.begin();
 
   delay(2000);
@@ -39,15 +41,16 @@ void loop() {
   // joystick.update();
   display.update();
 
-  // for (int i = 0; i < NUM_BUTTONS; i++) {
-  //   buttons[i].update();
-  //   if (buttons[i].wasPressed() || joystick.wasChanged()) {
-  //     midiController.processNoteOn(i, joystick.getPos());
-  //   } else if (buttons[i].wasReleased()) {
-  //     midiController.processNoteOff(i);
-  //   }
-  // }
+  for (int i = 0; i < NUM_BUTTONS; i++) {
+    buttons[i].update();
+    if (buttons[i].wasPressed() || joystick.wasChanged()) {
+      midiController.processNoteOn(i, joystick.getPos());
+      ui.buttonPressed(i);
+      Serial.println("button " + String(i) + " pressed");
+    } else if (buttons[i].wasReleased()) {
+      midiController.processNoteOff(i);
+    }
+  }
   // midiController.update();
-  delay(500);
-  Serial.println(joystick.getButton().isPressed());
+  // delay(500);
 }

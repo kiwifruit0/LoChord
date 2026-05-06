@@ -6,12 +6,18 @@
 #define LCD_HOR_RES 142
 #define LCD_VER_RES 428
 
-uint8_t Display::_drawBuf[LCD_HOR_RES * 40 * 2];
+lv_display_t* Display::_disp = nullptr;
+uint8_t*      Display::_drawBuf = nullptr;
 
 Display::Display() {}
 
 void Display::begin() {
-  // backlight + gpio
+  // Allocate full-frame buffer in PSRAM
+  // 142 × 428 × 2 bytes (RGB565) = ~121 KB — well within 2 MB PSRAM
+  _drawBuf = (uint8_t*)ps_malloc(LCD_HOR_RES * LCD_VER_RES * 2);
+  assert(_drawBuf != nullptr); // halt if PSRAM allocation fails
+
+  // Backlight + GPIO
   pinMode(PIN_LCD_BL, OUTPUT);
   digitalWrite(PIN_LCD_BL, HIGH);
   pinMode(PIN_LCD_DC, OUTPUT);
@@ -28,22 +34,41 @@ void Display::begin() {
   lv_init();
   lv_tick_set_cb(getTick);
 
-  _disp = lv_nv3007_create(LCD_HOR_RES, LCD_VER_RES, LV_LCD_FLAG_NONE, sendCmd,
-                           sendColor);
+  _disp = lv_nv3007_create(LCD_HOR_RES, LCD_VER_RES, LV_LCD_FLAG_NONE,
+                            sendCmd, sendColor);
 
   lv_nv3007_set_gap(_disp, 0, 14);
   lv_display_set_rotation(_disp, LV_DISPLAY_ROTATION_270);
   lv_display_set_color_format(_disp, LV_COLOR_FORMAT_RGB565_SWAPPED);
-  lv_display_set_buffers(_disp, _drawBuf, nullptr, sizeof(_drawBuf),
-                         LV_DISPLAY_RENDER_MODE_PARTIAL);
+
+  // Single full-frame buffer — LVGL renders the whole screen at once,
+  // then sends it in one contiguous SPI burst. No partial-update tearing.
+  lv_display_set_buffers(_disp, _drawBuf, nullptr,
+                         LCD_HOR_RES * LCD_VER_RES * 2,
+                         LV_DISPLAY_RENDER_MODE_FULL);
 
   ui_init();
-  change_color_theme(THEME_ID_NORD);
+  switchTheme(THEME_ID_NORD);
 }
 
 void Display::update() {
   lv_timer_handler();
   ui_tick();
+}
+
+void Display::switchTheme(int themeId) {
+  // 1. Blank the backlight so the user never sees a partial frame
+  digitalWrite(PIN_LCD_BL, LOW);
+
+  // 2. Apply theme (invalidates all dirty regions internally)
+  change_color_theme(themeId);
+
+  // 3. Force a synchronous full redraw — drains the entire render pipeline
+  //    before this function returns. In LVGL 8 use lv_refr_now(NULL).
+  lv_refr_now(_disp);
+
+  // 4. Re-enable backlight — display is now fully updated
+  digitalWrite(PIN_LCD_BL, HIGH);
 }
 
 uint32_t Display::getTick() { return millis(); }
@@ -57,8 +82,8 @@ void Display::reset() {
   delay(120);
 }
 
-void Display::sendCmd(lv_display_t *disp, const uint8_t *cmd, size_t cmd_size,
-                      const uint8_t *param, size_t param_size) {
+void Display::sendCmd(lv_display_t* disp, const uint8_t* cmd, size_t cmd_size,
+                      const uint8_t* param, size_t param_size) {
   SPI.beginTransaction(SPISettings(LCD_SPI_HZ, MSBFIRST, SPI_MODE0));
   digitalWrite(PIN_LCD_CS, LOW);
   digitalWrite(PIN_LCD_DC, LOW);
@@ -71,8 +96,8 @@ void Display::sendCmd(lv_display_t *disp, const uint8_t *cmd, size_t cmd_size,
   SPI.endTransaction();
 }
 
-void Display::sendColor(lv_display_t *disp, const uint8_t *cmd, size_t cmd_size,
-                        uint8_t *param, size_t param_size) {
+void Display::sendColor(lv_display_t* disp, const uint8_t* cmd, size_t cmd_size,
+                        uint8_t* param, size_t param_size) {
   SPI.beginTransaction(SPISettings(LCD_SPI_HZ, MSBFIRST, SPI_MODE0));
   digitalWrite(PIN_LCD_CS, LOW);
   digitalWrite(PIN_LCD_DC, LOW);

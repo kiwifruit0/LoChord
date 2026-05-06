@@ -3,9 +3,9 @@
 #include <cstdint>
 
 // buttons
-#define NUM_BUTTONS 7
+#define NUM_BUTTONS 1
 
-const uint8_t buttonPins[NUM_BUTTONS] = {42, 41, 40, 39, 38, 37, 36};
+const uint8_t buttonPins[NUM_BUTTONS] = {42};
 
 // encoders
 #define PIN_UI_ENCODER = 23;
