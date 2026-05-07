@@ -54,6 +54,6 @@ void loop() {
       midiController.processNoteOff(i);
     }
   }
-  // midiController.update();
+  midiController.update();
   // delay(500);
 }

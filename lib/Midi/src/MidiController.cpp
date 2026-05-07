@@ -9,7 +9,12 @@ MidiController::MidiController(ChordGenerator chordGen, Clock &clock,
                                float randVelocityAmt)
     : output_(output), clock_(clock), sequencer_(clock), chordGen_(chordGen),
       chordMode_(chordMode), defaultVelocity_(defaultVelocity),
-      randVelocityAmt_(randVelocityAmt) {}
+      randVelocityAmt_(randVelocityAmt) {
+  // Sequencer defaults to arp enabled; always apply controller-level settings.
+  sequencer_.setArpOn(false);
+  sequencer_.setStrumOn(strumOn);
+  sequencer_.setArpOn(arpOn);
+}
 
 void MidiController::processNoteOn(int buttonId, int joystickPos) {
   // stop any currently playing chord
@@ -76,6 +81,22 @@ void MidiController::setChordMode(bool enabled) { chordMode_ = enabled; }
 
 void MidiController::setVelocity(float velocity) {
   defaultVelocity_ = velocity;
+}
+
+void MidiController::setStrumOn(bool strumOn) {
+  sequencer_.setStrumOn(strumOn);
+  if (strumOn && lastArpNote_ != -1) {
+    output_.noteOff(lastArpNote_);
+    lastArpNote_ = -1;
+  }
+}
+
+void MidiController::setArpOn(bool arpOn) {
+  sequencer_.setArpOn(arpOn);
+  if (!arpOn && lastArpNote_ != -1) {
+    output_.noteOff(lastArpNote_);
+    lastArpNote_ = -1;
+  }
 }
 
 void MidiController::setUIController(UIController &ui) { ui_ = &ui; }
