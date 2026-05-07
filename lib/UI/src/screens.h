@@ -22,7 +22,7 @@ typedef struct _objects_t {
     lv_obj_t *chord_quality_label;
     lv_obj_t *chord_notes_label;
     lv_obj_t *obj1;
-    lv_obj_t *chord_matrix;
+    lv_obj_t *joystick_matrix;
     lv_obj_t *obj2;
     lv_obj_t *bpm_label;
     lv_obj_t *obj3;

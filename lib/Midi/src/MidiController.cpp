@@ -7,8 +7,12 @@ MidiController::MidiController(ChordGenerator chordGen, Clock &clock,
                                MidiOutput &output, bool chordMode, bool strumOn,
                                bool arpOn, float defaultVelocity,
                                float randVelocityAmt)
-    : output_(output), clock_(clock), sequencer_(clock), chordGen_(chordGen),
-      chordMode_(chordMode), defaultVelocity_(defaultVelocity),
+    : output_(output),
+      clock_(clock),
+      sequencer_(clock),
+      chordGen_(chordGen),
+      chordMode_(chordMode),
+      defaultVelocity_(defaultVelocity),
       randVelocityAmt_(randVelocityAmt) {
   // Sequencer defaults to arp enabled; always apply controller-level settings.
   sequencer_.setArpOn(false);
@@ -30,6 +34,7 @@ void MidiController::processNoteOn(int buttonId, int joystickPos) {
     if (ui_) {
       ui_->setChordRoot(toString(activeChord_[0] % 12));
       ui_->setChordQuality(toString(result.quality));
+      ui_->setChordNotes(toString(activeChord_));
     }
 
   } else {
@@ -55,6 +60,8 @@ void MidiController::processNoteOff(int root) {
   if (ui_) {
     ui_->setChordRoot("-");
     ui_->setChordQuality("-");
+    ui_->setChordNotes("-");
+    ui_->clearJoystickMatrix();
   }
 }
 

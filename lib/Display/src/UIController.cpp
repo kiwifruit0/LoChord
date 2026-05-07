@@ -1,4 +1,5 @@
 #include "UIController.h"
+#include "device/usbd.h"
 #include "screens.h"
 
 UIController::UIController(Display &display) : display_(display) {}
@@ -9,4 +10,30 @@ void UIController::setChordRoot(const char *rootText) {
 
 void UIController::setChordQuality(const char *qualityText) {
   lv_label_set_text(objects.chord_quality_label, qualityText);
+}
+
+void UIController::updateUsbStatus() {
+  bool midiReady = tud_ready();
+
+  if (midiReady == lastMidiReady_)
+    return;
+
+  lastMidiReady_ = midiReady;
+
+  if (midiReady == true) {
+    lv_obj_add_state(objects.usb_label, LV_STATE_CHECKED);
+    lv_label_set_text(objects.usb_label, "* USB");
+  } else {
+    lv_obj_clear_state(objects.usb_label, LV_STATE_CHECKED);
+    lv_label_set_text(objects.usb_label, "* NO USB");
+  }
+}
+
+void UIController::setChordNotes(const char *notesText) {
+  lv_label_set_text(objects.chord_notes_label, notesText);
+}
+
+void UIController::clearJoystickMatrix() {
+  for (int i = 0; i < 9; i++) {
+  }
 }

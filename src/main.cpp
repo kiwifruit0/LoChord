@@ -45,15 +45,16 @@ void loop() {
   // joystick.update();
   display.update();
 
+  ui.updateUsbStatus();
+
   for (int i = 0; i < NUM_BUTTONS; i++) {
     buttons[i].update();
     if (buttons[i].wasPressed() || joystick.wasChanged()) {
-      midiController.processNoteOn(i, joystick.getPos());
+      midiController.processNoteOn(i, 0);
       Serial.println("button " + String(i) + " pressed");
     } else if (buttons[i].wasReleased()) {
       midiController.processNoteOff(i);
     }
   }
   midiController.update();
-  // delay(500);
 }

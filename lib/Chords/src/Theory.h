@@ -64,9 +64,11 @@ struct Chord {
   std::array<int, MAX_CHORD_NOTES> notes;
   std::size_t size;
 
-  Chord() : size(0) {};
+  Chord()
+      : size(0) {};
 
-  Chord(std::initializer_list<int> n) : size(n.size()) {
+  Chord(std::initializer_list<int> n)
+      : size(n.size()) {
     size_t i = 0;
     for (int note : n) {
       if (i < MAX_CHORD_NOTES) {
@@ -130,39 +132,39 @@ inline const std::array<ScaleQualities, 2> SCALE_QUALITIES = {
 inline const std::array<JoystickChords, 3> EXTENDED_CHORDS = {{
     // major chord extensions
     {
-        Quality::Maj,  // centre
+        Quality::Aug,   // up left
         Quality::min,  // up
         Quality::dom7, // up right
-        Quality::Maj7, // right
-        Quality::Maj9, // down right
-        Quality::sus4, // down
-        Quality::sus2, // down left
         Quality::dim,  // left
-        Quality::Aug   // up left
+        Quality::Maj,  // centre
+        Quality::Maj7, // right
+        Quality::sus2, // down left
+        Quality::sus4, // down
+        Quality::Maj9, // down right
     },
     //  minor extensions
     {
-        Quality::min,  // centre
+        Quality::Aug,  // up left
         Quality::Maj,  // up
         Quality::dom7, // up right
-        Quality::min7, // right
-        Quality::min9, // down right
-        Quality::sus4, // down
-        Quality::sus2, // down left
         Quality::dim,  // left
-        Quality::Aug   // up left
+        Quality::min,  // centre
+        Quality::min7, // right
+        Quality::sus2, // down left
+        Quality::sus4, // down
+        Quality::min9, // down right
     },
     //  diminished extensions
     {
-        Quality::dim,  // centre
+        Quality::Aug,  // up left
         Quality::Maj,  // up
         Quality::dom7, // up right
-        Quality::dim7, // right
-        Quality::dim9, // down right
-        Quality::sus4, // down
-        Quality::sus2, // down left
         Quality::min,  // left
-        Quality::Aug   // up left
+        Quality::dim,  // centre
+        Quality::dim7, // right
+        Quality::sus2, // down left
+        Quality::sus4, // down
+        Quality::dim9, // down right
     },
 }};
 
@@ -216,15 +218,28 @@ inline const auto &getExtendedQuality(Quality baseQuality, int joystickPos) {
   return EXTENDED_CHORDS[static_cast<size_t>(baseQuality)][joystickPos];
 }
 
-inline const char* toString(int noteNum) {
-    return NOTE_NAMES[static_cast<size_t>(noteNum)];
+inline const char *toString(int midiNum) {
+  return NOTE_NAMES[static_cast<size_t>(midiNum % 12)];
 }
 
-inline const char* toString(Quality q) {
-    return QUALITY_NAMES[static_cast<size_t>(q)];
+inline const char *toString(Quality q) {
+  return QUALITY_NAMES[static_cast<size_t>(q)];
 }
 
-inline const char* toString(Mode m) {
-    return MODE_NAMES[static_cast<size_t>(m)];
+inline const char *toString(Mode m) {
+  return MODE_NAMES[static_cast<size_t>(m)];
 }
 
+inline const char *toString(const Chord &chord) {
+  static char buf[32];
+  char *p = buf;
+  for (int i = 0; i < chord.size; ++i) {
+    if (i > 0)
+      *p++ = ' ';
+    const char *name = toString(chord[i]);
+    while (*name)
+      *p++ = *name++;
+  }
+  *p = '\0';
+  return buf;
+}

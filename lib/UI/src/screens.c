@@ -82,11 +82,13 @@ void create_screen_main() {
                             // ChordNotesLabel
                             lv_obj_t *obj = lv_label_create(parent_obj);
                             objects.chord_notes_label = obj;
-                            lv_obj_set_pos(obj, 15, 112);
-                            lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_obj_set_pos(obj, 0, 111);
+                            lv_obj_set_size(obj, LV_PCT(100), LV_SIZE_CONTENT);
                             add_style_text_tiny(obj);
                             lv_obj_set_style_text_color(obj, lv_color_hex(theme_colors[active_theme_index][3]), LV_PART_MAIN | LV_STATE_DEFAULT);
-                            lv_label_set_text_static(obj, "C E# G");
+                            lv_obj_set_style_pad_left(obj, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
+                            lv_obj_set_style_text_line_space(obj, 4, LV_PART_MAIN | LV_STATE_DEFAULT);
+                            lv_label_set_text_static(obj, "-");
                         }
                     }
                 }
@@ -116,9 +118,9 @@ void create_screen_main() {
                             lv_label_set_text_static(obj, "JOYSTICK");
                         }
                         {
-                            // ChordMatrix
+                            // JoystickMatrix
                             lv_obj_t *obj = lv_buttonmatrix_create(parent_obj);
-                            objects.chord_matrix = obj;
+                            objects.joystick_matrix = obj;
                             lv_obj_set_pos(obj, 0, 28);
                             lv_obj_set_size(obj, 186, 104);
                             static const char *map[12] = {
@@ -281,9 +283,11 @@ void create_screen_main() {
                             objects.usb_label = obj;
                             lv_obj_set_pos(obj, 0, 0);
                             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
+                            lv_obj_add_flag(obj, LV_OBJ_FLAG_CHECKABLE);
                             add_style_text_tiny(obj);
-                            lv_obj_set_style_text_color(obj, lv_color_hex(theme_colors[active_theme_index][9]), LV_PART_MAIN | LV_STATE_DEFAULT);
-                            lv_label_set_text_static(obj, "* USB");
+                            lv_obj_set_style_text_color(obj, lv_color_hex(theme_colors[active_theme_index][3]), LV_PART_MAIN | LV_STATE_DEFAULT);
+                            lv_obj_set_style_text_color(obj, lv_color_hex(theme_colors[active_theme_index][9]), LV_PART_MAIN | LV_STATE_CHECKED);
+                            lv_label_set_text_static(obj, "* NO USB");
                         }
                     }
                 }
@@ -406,7 +410,8 @@ void change_color_theme(uint32_t theme_index) {
         lv_obj_set_style_text_color(objects.obj4, lv_color_hex(theme_colors[theme_index][3]), LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_text_color(objects.clock_label, lv_color_hex(theme_colors[theme_index][8]), LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_text_color(objects.ready_label, lv_color_hex(theme_colors[theme_index][8]), LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_text_color(objects.usb_label, lv_color_hex(theme_colors[theme_index][9]), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_text_color(objects.usb_label, lv_color_hex(theme_colors[theme_index][3]), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_text_color(objects.usb_label, lv_color_hex(theme_colors[theme_index][9]), LV_PART_MAIN | LV_STATE_CHECKED);
     }
     lv_style_set_bg_color(get_style_chord_matrix_ITEMS_DEFAULT(), lv_color_hex(theme_colors[theme_index][1]));
     lv_style_set_border_color(get_style_chord_matrix_ITEMS_DEFAULT(), lv_color_hex(theme_colors[theme_index][2]));

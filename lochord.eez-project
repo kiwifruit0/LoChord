@@ -113,7 +113,17 @@
     "structures": [],
     "enums": []
   },
-  "actions": [],
+  "actions": [
+    {
+      "objID": "4b7e61c9-db79-48aa-df3d-35928b9966c6",
+      "components": [],
+      "connectionLines": [],
+      "localVariables": [],
+      "componentGroups": [],
+      "userProperties": [],
+      "name": "usb text"
+    }
+  ],
   "userPages": [
     {
       "objID": "4b40eba7-b31a-468a-b887-11dfd0b6637f",
@@ -289,9 +299,9 @@
                     {
                       "objID": "88f4dd69-5b7f-4847-aa08-80ad6136145e",
                       "type": "LVGLLabelWidget",
-                      "left": 15,
-                      "top": 112,
-                      "width": 48,
+                      "left": 0,
+                      "top": 111,
+                      "width": 100,
                       "height": 8,
                       "customInputs": [],
                       "customOutputs": [],
@@ -306,7 +316,7 @@
                       "identifier": "ChordNotesLabel",
                       "leftUnit": "px",
                       "topUnit": "px",
-                      "widthUnit": "content",
+                      "widthUnit": "%",
                       "heightUnit": "content",
                       "children": [],
                       "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
@@ -325,14 +335,16 @@
                         "definition": {
                           "MAIN": {
                             "DEFAULT": {
-                              "text_color": "Grey1"
+                              "text_color": "Grey1",
+                              "pad_left": 15,
+                              "text_line_space": 4
                             }
                           }
                         }
                       },
                       "group": "",
                       "groupIndex": 0,
-                      "text": "C E# G",
+                      "text": "-",
                       "textType": "literal",
                       "longMode": "WRAP",
                       "recolor": false
@@ -444,7 +456,7 @@
                       },
                       "timeline": [],
                       "eventHandlers": [],
-                      "identifier": "ChordMatrix",
+                      "identifier": "JoystickMatrix",
                       "leftUnit": "px",
                       "topUnit": "px",
                       "widthUnit": "px",
@@ -1041,7 +1053,7 @@
                       "type": "LVGLLabelWidget",
                       "left": 0,
                       "top": 0,
-                      "width": 40,
+                      "width": 64,
                       "height": 8,
                       "customInputs": [],
                       "customOutputs": [],
@@ -1059,13 +1071,14 @@
                       "widthUnit": "content",
                       "heightUnit": "content",
                       "children": [],
-                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",
+                      "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE|CHECKABLE",
                       "hiddenFlagType": "literal",
                       "clickableFlagType": "literal",
                       "flagScrollbarMode": "",
                       "flagScrollDirection": "",
                       "scrollSnapX": "",
                       "scrollSnapY": "",
+                      "checkedState": false,
                       "checkedStateType": "literal",
                       "disabledStateType": "literal",
                       "states": "",
@@ -1075,6 +1088,9 @@
                         "definition": {
                           "MAIN": {
                             "DEFAULT": {
+                              "text_color": "Grey1"
+                            },
+                            "CHECKED": {
                               "text_color": "alt3"
                             }
                           }
@@ -1082,7 +1098,7 @@
                       },
                       "group": "",
                       "groupIndex": 0,
-                      "text": "* USB",
+                      "text": "* NO USB",
                       "textType": "literal",
                       "longMode": "WRAP",
                       "recolor": false
