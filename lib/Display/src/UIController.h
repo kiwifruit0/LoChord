@@ -8,6 +8,8 @@ public:
 
   void setChordRoot(const char *rootText);
 
+  void setChordQuality(const char *qualityText);
+
 private:
   Display &display_;
 };

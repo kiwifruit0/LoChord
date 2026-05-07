@@ -66,7 +66,7 @@ void create_screen_main() {
                             add_style_text_small(obj);
                             lv_obj_set_style_text_font(obj, &ui_font_press_start2_p_48, LV_PART_MAIN | LV_STATE_DEFAULT);
                             lv_obj_set_style_text_color(obj, lv_color_hex(theme_colors[active_theme_index][4]), LV_PART_MAIN | LV_STATE_DEFAULT);
-                            lv_label_set_text_static(obj, "C");
+                            lv_label_set_text_static(obj, "-");
                         }
                         {
                             // ChordQualityLabel
@@ -76,7 +76,7 @@ void create_screen_main() {
                             lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                             add_style_text_medium(obj);
                             lv_obj_set_style_text_color(obj, lv_color_hex(theme_colors[active_theme_index][5]), LV_PART_MAIN | LV_STATE_DEFAULT);
-                            lv_label_set_text_static(obj, "Minor");
+                            lv_label_set_text_static(obj, "-");
                         }
                         {
                             // ChordNotesLabel

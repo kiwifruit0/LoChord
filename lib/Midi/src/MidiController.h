@@ -8,7 +8,7 @@
 class MidiController {
 public:
   MidiController(ChordGenerator chordGen, Clock &clock, MidiOutput &output,
-                 bool chordMode = true, bool strumOn = true, bool arpOn = false,
+                 bool chordMode = true, bool strumOn = false, bool arpOn = false,
                  float defaultVelocity = 100, float randVelocityAmt = 0);
 
   void processNoteOn(int root, int joystickPos);

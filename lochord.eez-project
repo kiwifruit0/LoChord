@@ -230,7 +230,7 @@
                       },
                       "group": "",
                       "groupIndex": 0,
-                      "text": "C",
+                      "text": "-",
                       "textType": "literal",
                       "longMode": "WRAP",
                       "recolor": false
@@ -240,7 +240,7 @@
                       "type": "LVGLLabelWidget",
                       "left": 15,
                       "top": 73,
-                      "width": 120,
+                      "width": 24,
                       "height": 24,
                       "customInputs": [],
                       "customOutputs": [],
@@ -281,7 +281,7 @@
                       },
                       "group": "",
                       "groupIndex": 0,
-                      "text": "Minor",
+                      "text": "-",
                       "textType": "literal",
                       "longMode": "WRAP",
                       "recolor": false
