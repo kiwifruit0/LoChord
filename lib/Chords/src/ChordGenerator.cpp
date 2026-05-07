@@ -8,13 +8,13 @@ int ChordGenerator::getNoteNum(int root) {
          getScaleIntervals(scale_.mode)[root];
 }
 
-Chord ChordGenerator::getMidiChord(int root, int joystickPos) {
-  Quality baseQuality = getQualityInScale(scale_.mode, root);
+ChordResult ChordGenerator::getMidiChord(int buttonId, int joystickPos) {
+  Quality baseQuality = getQualityInScale(scale_.mode, buttonId);
   Quality extendedQuality = getExtendedQuality(baseQuality, joystickPos);
   Chord chord = getChordFromQuality(extendedQuality);
-  int rootNote = getNoteNum(root);
+  int rootNote = getNoteNum(buttonId);
   for (size_t i = 0; i < chord.size; i++) {
     chord.notes[i] = chord[i] + rootNote;
   }
-  return chord;
+  return ChordResult(chord, extendedQuality);
 }

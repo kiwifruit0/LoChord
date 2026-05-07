@@ -2,18 +2,24 @@
 
 #include "Theory.h"
 
+struct ChordResult {
+  Chord chord;
+  Quality quality;
+};
+
 class ChordGenerator {
 public:
   Scale scale_;
   int octave_;
 
-  ChordGenerator(Scale scale = Scale{Notes::C}, int octave = 3);
+  ChordGenerator(Scale scale = Scale{Notes::Cs, Mode::Major}, int octave = 3);
 
   // takes root and returns midi note num
   int getNoteNum(int root);
 
-  // takes root and returns chord with proper midi values
-  Chord getMidiChord(int root, int joystickPos);
+  // takes midi note number and returns Notes object
+  Notes getNoteObj(int noteNum);
 
-  Quality joystickPosToQuality(int joystickPos);
+  // takes root and returns chord with proper midi values
+  ChordResult getMidiChord(int root, int joystickPos);
 };

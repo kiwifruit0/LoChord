@@ -1,12 +1,13 @@
 #pragma once
-#include <Arduino.h>
 #include "Display.h"
+#include <Arduino.h>
 
 class UIController {
 public:
-  explicit UIController(Display& display);
-  void buttonPressed(uint8_t buttonId);
+  explicit UIController(Display &display);
+
+  void setChordRoot(const char *rootText);
 
 private:
-  Display& display_;
+  Display &display_;
 };

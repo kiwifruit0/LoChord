@@ -1,4 +1,5 @@
 #include "MidiController.h"
+#include "Theory.h"
 #include <Arduino.h>
 #include <cstdlib>
 
@@ -6,38 +7,40 @@ MidiController::MidiController(ChordGenerator chordGen, Clock &clock,
                                MidiOutput &output, bool chordMode, bool strumOn,
                                bool arpOn, float defaultVelocity,
                                float randVelocityAmt)
-    : output_(output),
-      clock_(clock),
-      sequencer_(clock),
-      chordGen_(chordGen),
-      chordMode_(chordMode),
-      defaultVelocity_(defaultVelocity),
+    : output_(output), clock_(clock), sequencer_(clock), chordGen_(chordGen),
+      chordMode_(chordMode), defaultVelocity_(defaultVelocity),
       randVelocityAmt_(randVelocityAmt) {}
 
-void MidiController::processNoteOn(int root, int joystickPos) {
-  // Stop any currently playing chord (when starting a new one)
+void MidiController::processNoteOn(int buttonId, int joystickPos) {
+  // stop any currently playing chord
   stopCurrentChord();
-  
+
   if (chordMode_) {
     // send chord
-    activeChord_ = chordGen_.getMidiChord(root, joystickPos);
-    activeRoot_ = root;  // Track which button/root started this chord
+    auto result = chordGen_.getMidiChord(buttonId, joystickPos);
+    activeChord_ = result.chord;
+    activeButtonId_ = buttonId;
     sendChord(activeChord_);
+
   } else {
     // send single note
     activeChord_.clear();
-    activeChord_.addNote(chordGen_.getNoteNum(root));
-    activeRoot_ = root;
+    activeChord_.addNote(chordGen_.getNoteNum(buttonId));
+    activeButtonId_ = buttonId;
     sendNote(activeChord_[0]);
+  }
+
+  if (ui_) {
+    ui_->setChordRoot(toString(activeChord_[0] % 12));
   }
 }
 
 void MidiController::processNoteOff(int root) {
-  // Only stop the chord if this button/root is the one that started it
-  if (root != activeRoot_) {
-    return;  // Ignore release of buttons that didn't start the current chord
+  // ignore release of buttons that didn't start the current chord
+  if (root != activeButtonId_) {
+    return;
   }
-  
+
   stopCurrentChord();
 }
 
@@ -47,16 +50,16 @@ void MidiController::stopCurrentChord() {
     output_.noteOff(activeChord_[i]);
   }
   activeChord_.clear();
-  
+
   // send note off for last arp note if any
   if (lastArpNote_ != -1) {
     output_.noteOff(lastArpNote_);
     lastArpNote_ = -1;
   }
-  
-  // Clear the active root
-  activeRoot_ = -1;
-  
+
+  // clear the active root
+  activeButtonId_ = -1;
+
   sequencer_.clear();
 }
 
@@ -65,6 +68,8 @@ void MidiController::setChordMode(bool enabled) { chordMode_ = enabled; }
 void MidiController::setVelocity(float velocity) {
   defaultVelocity_ = velocity;
 }
+
+void MidiController::setUIController(UIController &ui) { ui_ = &ui; }
 
 ChordGenerator &MidiController::getChordGenerator() { return chordGen_; }
 
@@ -100,10 +105,10 @@ void MidiController::update() {
     if (sequencer_.isArpOn() && lastArpNote_ != -1) {
       output_.noteOff(lastArpNote_);
     }
-    
+
     uint8_t nextNote = sequencer_.getNextNoteNum();
     sendNote(nextNote);
-    
+
     // Track the note for arp mode
     if (sequencer_.isArpOn()) {
       lastArpNote_ = nextNote;

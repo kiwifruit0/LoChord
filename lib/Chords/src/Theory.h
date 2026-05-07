@@ -36,6 +36,15 @@ enum class Quality {
   dim9
 };
 
+constexpr const char *NOTE_NAMES[] = {"C",  "C#", "D",  "D#", "E",  "F",
+                                      "F#", "G",  "G#", "A",  "A#", "B"};
+
+constexpr const char *QUALITY_NAMES[] = {"Maj",  "min",  "dim",  "Aug",  "Maj7",
+                                         "min7", "Maj9", "min9", "sus2", "sus4",
+                                         "dom7", "dim7", "dim9"};
+
+constexpr const char *MODE_NAMES[] = {"Major", "Minor"};
+
 // ------------------------------
 // structs
 // ------------------------------
@@ -55,11 +64,9 @@ struct Chord {
   std::array<int, MAX_CHORD_NOTES> notes;
   std::size_t size;
 
-  Chord()
-      : size(0) {};
+  Chord() : size(0) {};
 
-  Chord(std::initializer_list<int> n)
-      : size(n.size()) {
+  Chord(std::initializer_list<int> n) : size(n.size()) {
     size_t i = 0;
     for (int note : n) {
       if (i < MAX_CHORD_NOTES) {
@@ -208,3 +215,16 @@ inline const auto &getChordFromQuality(Quality quality) {
 inline const auto &getExtendedQuality(Quality baseQuality, int joystickPos) {
   return EXTENDED_CHORDS[static_cast<size_t>(baseQuality)][joystickPos];
 }
+
+inline const char* toString(int noteNum) {
+    return NOTE_NAMES[static_cast<size_t>(noteNum)];
+}
+
+inline const char* toString(Quality q) {
+    return QUALITY_NAMES[static_cast<size_t>(q)];
+}
+
+inline const char* toString(Mode m) {
+    return MODE_NAMES[static_cast<size_t>(m)];
+}
+

@@ -27,12 +27,16 @@ void setup() {
   USB.begin();
   std::srand(micros());
 
-  for (int i = 0; i < NUM_BUTTONS; i++)
+  for (int i = 0; i < NUM_BUTTONS; i++){
     buttons[i].begin(buttonPins[i]);
-  // for (int i = 0; i < NUM_MAPPABLE_ENCODERS; i++)
+  }
+  // for (int i = 0; i < NUM_MAPPABLE_ENCODERS; i++) {
   //   encoders[i].begin(mappableEncoderPins[i]);
+  // }
   // joystick.begin(PIN_JOYSTICK_UD, PIN_JOYSTICK_LR, PIN_JOYSTICK_BUTTON);
   display.begin();
+
+  midiController.setUIController(ui);
 
   delay(2000);
 }
@@ -45,7 +49,6 @@ void loop() {
     buttons[i].update();
     if (buttons[i].wasPressed() || joystick.wasChanged()) {
       midiController.processNoteOn(i, joystick.getPos());
-      ui.buttonPressed(i);
       Serial.println("button " + String(i) + " pressed");
     } else if (buttons[i].wasReleased()) {
       midiController.processNoteOff(i);

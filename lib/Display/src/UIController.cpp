@@ -1,8 +1,8 @@
 #include "UIController.h"
 #include "screens.h"
 
-UIController::UIController(Display& display) : display_(display) {}
+UIController::UIController(Display &display) : display_(display) {}
 
-void UIController::buttonPressed(uint8_t buttonId) {
-  display_.switchTheme((active_theme_index + 1) % 3);
+void UIController::setChordRoot(const char *rootText) {
+  lv_label_set_text(objects.chord_root_label, rootText);
 }
