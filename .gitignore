@@ -69,4 +69,5 @@ vcpkg_installed/
 Testing/
 .cache/
 
-.github
+.github/
+.history/

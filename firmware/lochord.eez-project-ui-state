@@ -4,8 +4,6 @@
     "selectedStyleObject": "[lochord.eez-project]:/lvglStyles/styles/2",
     "selectedThemeObject": "[lochord.eez-project]:/themes/2",
     "selectedThemeColorObject": "[lochord.eez-project]:/colors/5",
-    "selectedFontObject": "[lochord.eez-project]:/fonts/-1",
-    "selectedBitmapObject": "[lochord.eez-project]:/bitmaps/-1",
     "subnavigationSelectedItems": {}
   },
   "layoutModel": {
@@ -194,7 +192,7 @@
             {
               "type": "tabset",
               "id": "EDITORS",
-              "weight": 42.38196115129734,
+              "weight": 40.78406253657815,
               "selected": 1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
@@ -222,13 +220,12 @@
                   },
                   "icon": "svg:page"
                 }
-              ],
-              "active": true
+              ]
             },
             {
               "type": "tabset",
               "id": "#00adeab0-f74d-4d26-bdc0-629f6d2f7bc8",
-              "weight": 36.91795937437012,
+              "weight": 38.51585798908931,
               "children": [
                 {
                   "type": "tab",
@@ -238,7 +235,8 @@
                   "enableClose": false,
                   "icon": "svg:properties"
                 }
-              ]
+              ],
+              "active": true
             }
           ]
         }
@@ -1057,7 +1055,11 @@
         "0": {
           "0": {
             "0": {},
-            "1": {},
+            "1": {
+              "1": {
+                "$selected": true
+              }
+            },
             "2": {
               "2": {},
               "3": {}
@@ -1068,7 +1070,7 @@
       "transform": {
         "translate": {
           "x": -205.94786435786472,
-          "y": -208.7397456709956
+          "y": 31.260254329004397
         },
         "scale": 1
       },
@@ -1105,10 +1107,9 @@
   "logsPanelFilter": "all",
   "selectedStylePropertyName": "",
   "lvglPart": "MAIN",
-  "lvglState": "DEFAULT",
+  "lvglState": "CHECKED",
   "lvglExpandedPropertiesGroup": [
-    "TEXT",
-    "PADDING"
+    "TEXT"
   ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,
