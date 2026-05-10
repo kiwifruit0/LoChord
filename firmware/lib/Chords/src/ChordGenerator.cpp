@@ -16,5 +16,5 @@ ChordResult ChordGenerator::getMidiChord(int buttonId, int joystickPos) {
   for (size_t i = 0; i < chord.size; i++) {
     chord.notes[i] = chord[i] + rootNote;
   }
-  return ChordResult(chord, extendedQuality);
+  return {chord, extendedQuality};
 }

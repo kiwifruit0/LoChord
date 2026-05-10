@@ -5,6 +5,10 @@
 Clock testClock(120.0f);
 Sequencer seq(testClock);
 
+void test_midi_num();
+void test_scale_midi_num();
+void test_chord_in_scale();
+
 void setUp() {
   // Reset sequencer state before each test
   seq.setArpOn(false);
@@ -166,6 +170,9 @@ void test_isArpOn() {
 
 int main() {
   UNITY_BEGIN();
+  RUN_TEST(test_midi_num);
+  RUN_TEST(test_scale_midi_num);
+  RUN_TEST(test_chord_in_scale);
   RUN_TEST(test_arp_mode_up);
   RUN_TEST(test_arp_mode_down);
   RUN_TEST(test_arp_mode_updown);
