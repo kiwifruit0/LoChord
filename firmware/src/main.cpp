@@ -12,7 +12,7 @@
 #include <cstdlib>
 
 Button buttons[NUM_BUTTONS];
-RotaryEncoder encoders[NUM_MAPPABLE_ENCODERS];
+RotaryEncoder encoder;
 Joystick joystick;
 Clock mainClock(120);
 MidiOutput midiOutput;
@@ -29,10 +29,10 @@ void setup() {
 
   for (int i = 0; i < NUM_BUTTONS; i++) {
     buttons[i].begin(buttonPins[i]);
-  }
-  // for (int i = 0; i < NUM_MAPPABLE_ENCODERS; i++) {
-  //   encoders[i].begin(mappableEncoderPins[i]);
-  // }
+  };
+
+  encoder.begin(PIN_ENCODER_A, PIN_ENCODER_B, PIN_ENCODER_BUTTON);
+
   // joystick.begin(PIN_JOYSTICK_UD, PIN_JOYSTICK_LR, PIN_JOYSTICK_BUTTON);
   display.begin();
 
@@ -42,10 +42,19 @@ void setup() {
 }
 
 void loop() {
-  // joystick.update();
   display.update();
+  encoder.update();
 
   ui.updateUsbStatus();
+
+  if (encoder.getButton().wasPressed()) {
+    Serial.println("encoder button pressed");
+  }
+
+  int delta = encoder.getDelta();
+  if (delta != 0) {
+    Serial.println("encoder turned " + String(delta));
+  }
 
   for (int i = 0; i < NUM_BUTTONS; i++) {
     buttons[i].update();

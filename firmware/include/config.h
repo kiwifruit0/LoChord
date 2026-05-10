@@ -8,11 +8,9 @@
 const uint8_t buttonPins[NUM_BUTTONS] = {36, 37, 38, 39, 40, 41, 42};
 
 // encoders
-#define PIN_UI_ENCODER = 0;
-
-#define NUM_MAPPABLE_ENCODERS 2
-
-const uint8_t mappableEncoderPins[NUM_MAPPABLE_ENCODERS] = {0, 0};
+#define PIN_ENCODER_A 48
+#define PIN_ENCODER_B 45
+#define PIN_ENCODER_BUTTON 47
 
 // joystick
 #define PIN_JOYSTICK_LR 0
