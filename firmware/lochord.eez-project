@@ -484,19 +484,21 @@
                           "objID": "001d6376-fc9d-4d4f-8265-7fa2b698051d",
                           "text": "AUG",
                           "width": 1,
+                          "ctrlCheckable": true,
                           "ctrlChecked": false
                         },
                         {
                           "objID": "ab51a9f9-5c96-4323-bbe6-7affdd447288",
                           "text": "MIN",
                           "width": 1,
-                          "ctrlCheckable": false,
-                          "ctrlChecked": true
+                          "ctrlCheckable": true,
+                          "ctrlChecked": false
                         },
                         {
                           "objID": "4cf25c00-7d71-4e50-a050-7c3fc01a93ab",
                           "text": "DOM7",
-                          "width": 1
+                          "width": 1,
+                          "ctrlChecked": true
                         },
                         {
                           "objID": "9db7eecd-d27d-4d36-a567-4b2c9b97d3c0",
@@ -507,17 +509,20 @@
                         {
                           "objID": "3f77eb44-23f9-4e16-f338-a59bcc0a7b5b",
                           "text": "DIM",
-                          "width": 1
+                          "width": 1,
+                          "ctrlCheckable": true
                         },
                         {
                           "objID": "bbc46182-eb6a-4dbc-9973-c6e121aca224",
                           "text": "MAJ",
-                          "width": 1
+                          "width": 1,
+                          "ctrlCheckable": true
                         },
                         {
                           "objID": "4834bcf1-1c8c-4b75-8301-6497fab4380e",
                           "text": "MAJ7",
-                          "width": 1
+                          "width": 1,
+                          "ctrlCheckable": true
                         },
                         {
                           "objID": "2001fe72-1029-4101-99b9-f3ceaeb50e03",
@@ -528,20 +533,23 @@
                         {
                           "objID": "031bc69a-1579-48ba-e984-a79f56dcffee",
                           "text": "SUS2",
-                          "width": 1
+                          "width": 1,
+                          "ctrlCheckable": true
                         },
                         {
                           "objID": "f3d23eb2-080f-449f-b0e0-d78287c288dc",
                           "text": "SUS4",
-                          "width": 1
+                          "width": 1,
+                          "ctrlCheckable": true
                         },
                         {
                           "objID": "e2e03734-9aa0-41c7-bccf-89b810eaa70e",
                           "text": "MAJ9",
-                          "width": 1
+                          "width": 1,
+                          "ctrlCheckable": true
                         }
                       ],
-                      "oneCheck": false
+                      "oneCheck": true
                     }
                   ],
                   "widgetFlags": "CLICK_FOCUSABLE|GESTURE_BUBBLE|PRESS_LOCK|SCROLLABLE|SCROLL_CHAIN_HOR|SCROLL_CHAIN_VER|SCROLL_ELASTIC|SCROLL_MOMENTUM|SCROLL_WITH_ARROW|SNAPPABLE",

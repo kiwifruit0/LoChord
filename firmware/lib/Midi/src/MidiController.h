@@ -39,6 +39,8 @@ private:
   bool chordMode_;
   float randVelocityAmt_;
   float defaultVelocity_;
+  std::array<const char*, 12> joystickMap_;
+
 
   // tracks held notes for note off
   Chord activeChord_;

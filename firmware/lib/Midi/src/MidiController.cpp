@@ -31,10 +31,13 @@ void MidiController::processNoteOn(int buttonId, int joystickPos) {
     activeButtonId_ = buttonId;
     sendChord(activeChord_);
 
+    // update ui
     if (ui_) {
       ui_->setChordRoot(toString(activeChord_[0] % 12));
       ui_->setChordQuality(toString(result.quality));
       ui_->setChordNotes(toString(activeChord_));
+      joystickMap_ = getJoystickBtnMap(result.baseQuality);
+      ui_->updateJoystickMatrix(joystickPos, joystickMap_);
     }
 
   } else {
@@ -43,6 +46,7 @@ void MidiController::processNoteOn(int buttonId, int joystickPos) {
     activeChord_.addNote(chordGen_.getNoteNum(buttonId));
     activeButtonId_ = buttonId;
     sendNote(activeChord_[0]);
+
     if (ui_) {
       ui_->setChordRoot(toString(activeChord_[0] % 12));
     }

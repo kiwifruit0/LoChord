@@ -14,6 +14,9 @@ public:
 
   void setChordNotes(const char *notesText);
 
+  void updateJoystickMatrix(uint8_t joystickPos,
+                            const std::array<const char *, 12> &map);
+
   void clearJoystickMatrix();
 
 private:

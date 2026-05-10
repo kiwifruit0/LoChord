@@ -18,7 +18,9 @@ uint8_t Joystick::getPos() {
 
   // returns output so top left is 0, top middle is 1, centre is 4 etc
   // to match up with the order of the chord qualities in Theory.h
-  return xVal + 3 * yVal;
+  lastPos_ = currentPos_;
+  currentPos_ = xVal + 3 * yVal;
+  return currentPos_;
 }
 
 void Joystick::update() { getPos(); }

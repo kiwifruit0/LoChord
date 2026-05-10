@@ -5,6 +5,7 @@
 struct ChordResult {
   Chord chord;
   Quality quality;
+  Quality baseQuality;
 };
 
 class ChordGenerator {

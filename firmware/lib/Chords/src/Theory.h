@@ -39,9 +39,9 @@ enum class Quality {
 constexpr const char *NOTE_NAMES[] = {"C",  "C#", "D",  "D#", "E",  "F",
                                       "F#", "G",  "G#", "A",  "A#", "B"};
 
-constexpr const char *QUALITY_NAMES[] = {"Maj",  "min",  "dim",  "Aug",  "Maj7",
-                                         "min7", "Maj9", "min9", "sus2", "sus4",
-                                         "dom7", "dim7", "dim9"};
+constexpr const char *QUALITY_NAMES[] = {"MAJ",  "MIN",  "DIM",  "AUG",  "MAJ7",
+                                         "MIN7", "MAJ9", "MIN9", "SUS2", "SUS4",
+                                         "DOM7", "DIM7", "DIM9"};
 
 constexpr const char *MODE_NAMES[] = {"Major", "Minor"};
 
@@ -132,7 +132,7 @@ inline const std::array<ScaleQualities, 2> SCALE_QUALITIES = {
 inline const std::array<JoystickChords, 3> EXTENDED_CHORDS = {{
     // major chord extensions
     {
-        Quality::Aug,   // up left
+        Quality::Aug,  // up left
         Quality::min,  // up
         Quality::dom7, // up right
         Quality::dim,  // left
@@ -242,4 +242,12 @@ inline const char *toString(const Chord &chord) {
   }
   *p = '\0';
   return buf;
+}
+
+inline const std::array<const char *, 12>
+getJoystickBtnMap(Quality baseQuality) {
+  const auto &exts = EXTENDED_CHORDS[static_cast<size_t>(baseQuality)];
+  return {toString(exts[0]), toString(exts[1]), toString(exts[2]), "\n",
+          toString(exts[3]), toString(exts[4]), toString(exts[5]), "\n",
+          toString(exts[6]), toString(exts[7]), toString(exts[8]), NULL};
 }
