@@ -30,7 +30,10 @@ void RotaryEncoder::handleIsr() {
 void RotaryEncoder::update() { button_.update(); }
 
 int RotaryEncoder::getDelta() {
-  int delta = counter_ - lastCounter_;
-  lastCounter_ = counter_;
+  noInterrupts();
+  int c = counter_;
+  interrupts();
+  int delta = c - lastCounter_;
+  lastCounter_ = c;
   return delta;
 }

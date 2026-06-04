@@ -15,7 +15,7 @@ const uint8_t buttonPins[NUM_BUTTONS] = {36, 37, 38, 39, 40, 41, 42};
 // joystick
 #define PIN_JOYSTICK_LR 0
 #define PIN_JOYSTICK_UD 0
-#define PIN_JOYSTICK_BUTTON 0
+#define PIN_JOYSTICK_BUTTON 14
 
 // display
 #define PIN_LCD_DC 9

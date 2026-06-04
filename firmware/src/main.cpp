@@ -33,7 +33,7 @@ void setup() {
 
   encoder.begin(PIN_ENCODER_A, PIN_ENCODER_B, PIN_ENCODER_BUTTON);
 
-  // joystick.begin(PIN_JOYSTICK_UD, PIN_JOYSTICK_LR, PIN_JOYSTICK_BUTTON);
+  joystick.begin(PIN_JOYSTICK_UD, PIN_JOYSTICK_LR, PIN_JOYSTICK_BUTTON);
   display.begin();
 
   midiController.setUIController(ui);
@@ -44,6 +44,7 @@ void setup() {
 void loop() {
   display.update();
   encoder.update();
+  joystick.update();
 
   ui.updateUsbStatus();
 
@@ -54,6 +55,10 @@ void loop() {
   int delta = encoder.getDelta();
   if (delta != 0) {
     Serial.println("encoder turned " + String(delta));
+  }
+
+  if (joystick.getButton().wasPressed()) {
+    Serial.println("joystick button pressed");
   }
 
   for (int i = 0; i < NUM_BUTTONS; i++) {

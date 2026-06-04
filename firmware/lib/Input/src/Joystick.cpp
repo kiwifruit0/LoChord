@@ -7,6 +7,11 @@ void Joystick::begin(uint8_t udPin, uint8_t lrPin, uint8_t buttonPin) {
 
   this->button_ = Button();
   this->button_.begin(buttonPin);
+
+  currentPos_ = 0;
+  lastPos_ = 0;
+  getPos();
+  lastPos_ = currentPos_;
 }
 
 bool Joystick::wasChanged() { return currentPos_ != lastPos_; }
@@ -23,4 +28,7 @@ uint8_t Joystick::getPos() {
   return currentPos_;
 }
 
-void Joystick::update() { getPos(); }
+void Joystick::update() {
+  button_.update();
+  getPos();
+}

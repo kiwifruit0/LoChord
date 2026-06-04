@@ -10,7 +10,7 @@ public:
 
   bool wasChanged();
 
-  Button getButton() { return this->button_; };
+  Button &getButton() { return this->button_; };
 
   // returns a value from 0-8 representing the joystick position
   uint8_t getPos();
