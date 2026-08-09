@@ -26,9 +26,9 @@ typedef struct _objects_t {
     lv_obj_t *obj2;
     lv_obj_t *bpm_label;
     lv_obj_t *obj3;
-    lv_obj_t *channel_label;
+    lv_obj_t *key_label;
     lv_obj_t *obj4;
-    lv_obj_t *clock_label;
+    lv_obj_t *arp_strum_label;
     lv_obj_t *ready_label;
     lv_obj_t *usb_label;
 } objects_t;

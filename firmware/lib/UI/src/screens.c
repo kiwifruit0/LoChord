@@ -217,17 +217,17 @@ void create_screen_main() {
                                     lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                                     add_style_text_tiny(obj);
                                     lv_obj_set_style_text_color(obj, lv_color_hex(theme_colors[active_theme_index][3]), LV_PART_MAIN | LV_STATE_DEFAULT);
-                                    lv_label_set_text_static(obj, "CH");
+                                    lv_label_set_text_static(obj, "KEY");
                                 }
                                 {
-                                    // ChannelLabel
+                                    // KeyLabel
                                     lv_obj_t *obj = lv_label_create(parent_obj);
-                                    objects.channel_label = obj;
+                                    objects.key_label = obj;
                                     lv_obj_set_pos(obj, 0, 0);
                                     lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                                     add_style_text_tiny(obj);
                                     lv_obj_set_style_text_color(obj, lv_color_hex(theme_colors[active_theme_index][5]), LV_PART_MAIN | LV_STATE_DEFAULT);
-                                    lv_label_set_text_static(obj, "01");
+                                    lv_label_set_text_static(obj, "-");
                                 }
                             }
                         }
@@ -254,17 +254,17 @@ void create_screen_main() {
                                     lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                                     add_style_text_tiny(obj);
                                     lv_obj_set_style_text_color(obj, lv_color_hex(theme_colors[active_theme_index][3]), LV_PART_MAIN | LV_STATE_DEFAULT);
-                                    lv_label_set_text_static(obj, "CLK");
+                                    lv_label_set_text_static(obj, "MODE");
                                 }
                                 {
-                                    // ClockLabel
+                                    // ArpStrumLabel
                                     lv_obj_t *obj = lv_label_create(parent_obj);
-                                    objects.clock_label = obj;
+                                    objects.arp_strum_label = obj;
                                     lv_obj_set_pos(obj, 0, 0);
                                     lv_obj_set_size(obj, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
                                     add_style_text_tiny(obj);
                                     lv_obj_set_style_text_color(obj, lv_color_hex(theme_colors[active_theme_index][8]), LV_PART_MAIN | LV_STATE_DEFAULT);
-                                    lv_label_set_text_static(obj, "01");
+                                    lv_label_set_text_static(obj, "-");
                                 }
                             }
                         }
@@ -407,9 +407,9 @@ void change_color_theme(uint32_t theme_index) {
         lv_obj_set_style_text_color(objects.obj2, lv_color_hex(theme_colors[theme_index][3]), LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_text_color(objects.bpm_label, lv_color_hex(theme_colors[theme_index][7]), LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_text_color(objects.obj3, lv_color_hex(theme_colors[theme_index][3]), LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_text_color(objects.channel_label, lv_color_hex(theme_colors[theme_index][5]), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_text_color(objects.key_label, lv_color_hex(theme_colors[theme_index][5]), LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_text_color(objects.obj4, lv_color_hex(theme_colors[theme_index][3]), LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_text_color(objects.clock_label, lv_color_hex(theme_colors[theme_index][8]), LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_text_color(objects.arp_strum_label, lv_color_hex(theme_colors[theme_index][8]), LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_text_color(objects.ready_label, lv_color_hex(theme_colors[theme_index][8]), LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_text_color(objects.usb_label, lv_color_hex(theme_colors[theme_index][3]), LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_text_color(objects.usb_label, lv_color_hex(theme_colors[theme_index][9]), LV_PART_MAIN | LV_STATE_CHECKED);

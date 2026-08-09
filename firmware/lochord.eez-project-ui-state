@@ -193,7 +193,6 @@
               "type": "tabset",
               "id": "EDITORS",
               "weight": 40.78406253657815,
-              "selected": 1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
@@ -220,8 +219,7 @@
                   },
                   "icon": "svg:page"
                 }
-              ],
-              "active": true
+              ]
             },
             {
               "type": "tabset",
@@ -236,7 +234,8 @@
                   "enableClose": false,
                   "icon": "svg:properties"
                 }
-              ]
+              ],
+              "active": true
             }
           ]
         }
@@ -1059,7 +1058,9 @@
               "1": {}
             },
             "2": {
-              "2": {},
+              "2": {
+                "0": {}
+              },
               "3": {}
             }
           }
@@ -1067,8 +1068,8 @@
       },
       "transform": {
         "translate": {
-          "x": -205.94786435786472,
-          "y": 31.260254329004397
+          "x": -313.7603643578647,
+          "y": -79.8803706709956
         },
         "scale": 1
       },

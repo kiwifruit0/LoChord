@@ -19,6 +19,8 @@ public:
 
   void clearJoystickMatrix();
 
+  void setArpStrumMode(bool arpOn, bool strumOn);
+
 private:
   Display &display_;
 

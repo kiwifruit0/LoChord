@@ -50,7 +50,23 @@
         "silk_text_thickness": 0.1,
         "silk_text_upright": false,
         "zones": {
-          "min_clearance": 0.5
+          "border_display_style": 2,
+          "border_hatch_pitch": 0.5,
+          "corner_radius": 0.0,
+          "corner_smoothing": 0,
+          "fill_mode": 0,
+          "hatch_gap": 1.5,
+          "hatch_orientation": 0.0,
+          "hatch_smoothing_level": 0,
+          "hatch_smoothing_value": 0.1,
+          "hatch_thickness": 1.0,
+          "min_clearance": 0.5,
+          "min_island_area": 10.0,
+          "min_thickness": 0.25,
+          "pad_connection": 1,
+          "remove_islands": 0,
+          "thermal_relief_gap": 0.5,
+          "thermal_relief_spoke_width": 0.5
         }
       },
       "diff_pair_dimensions": [
@@ -749,13 +765,13 @@
         "uuid": "cb9cde49-491c-4637-83a4-9a90127d65a1"
       }
     ],
-    "used_designators": "C6,R4-5,R7-8,SW3-5,#PWR1,#PWR3-4,#PWR14-16",
+    "used_designators": "J2,U1,R6-23,#PWR1,#PWR3-4,#PWR15-16,#PWR18-51,SW3-4,SW6-17",
     "variants": []
   },
   "sheets": [
     [
       "cb9cde49-491c-4637-83a4-9a90127d65a1",
-      "dev-board"
+      "lochord_hw"
     ]
   ],
   "text_variables": {},

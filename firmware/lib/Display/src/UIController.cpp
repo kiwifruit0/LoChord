@@ -45,3 +45,14 @@ void UIController::clearJoystickMatrix() {
   lv_buttonmatrix_clear_button_ctrl_all(objects.joystick_matrix,
                                         LV_BUTTONMATRIX_CTRL_CHECKED);
 }
+
+void UIController::setArpStrumMode(bool arpOn, bool strumOn) {
+  if (!arpOn && !strumOn) {
+    lv_label_set_text(objects.arp_strum_label, "OFF");
+  } else if (arpOn) {
+    lv_label_set_text(objects.arp_strum_label, "ARP");
+  } else if (strumOn) {
+    lv_label_set_text(objects.arp_strum_label, "STRUM");
+  }
+
+}
