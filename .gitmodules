@@ -1,0 +1,3 @@
+[submodule "lochord_hw/assets/kiswitch"]
+	path = lochord_hw/assets/kiswitch
+	url = https://github.com/kiswitch/kiswitch.git
