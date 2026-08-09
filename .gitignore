@@ -1,5 +1,3 @@
-lochord_hw/*
-
 # ------------------------------
 # c++ / platformio
 # ------------------------------
@@ -127,7 +125,7 @@ fp-info-cache
 gerbers
 gerbers.zip
 
-dev-board-backups
+lochord_hw/lochord_hw-backups/
 
 *.lck
 
