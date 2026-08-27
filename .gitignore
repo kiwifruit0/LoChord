@@ -131,3 +131,9 @@ lochord_hw/lochord_hw-backups/
 
 .DS_Store
 
+
+# KiCad MCP server working backups
+lochord_hw/.mcp-backups/
+
+# Regenerable manufacturing outputs (see lochord_hw/export-production.sh)
+lochord_hw/production/

@@ -12,7 +12,7 @@ LoChord is a real-time MIDI chord controller, built on an **ESP32-P4** with Plat
 |---|---|---|
 | Sound source | Built-in synthesis engine (30+ instruments), speaker + headphone out | USB MIDI controller first; onboard **wavetable synth** is future work. Headphone jack and **ES8388 codec** are on the board now, output-only, provisioned for that future synth |
 | Control surface | Buttons + joystick, no rotary encoders | Adds 1 clickable UI encoder (menu/parameter navigation) + 2 clickable control encoders (continuous parameters, e.g. BPM, strum) on top of the button + joystick layout |
-| Settings / menus | Minimal on-device UI | **PLACEHOLDER** — the dedicated settings/menu system isn't detailed yet. Is this driven by the UI encoder click, a separate physical button, or something else? Tell me and I'll fill this in properly. |
+| Settings / menus | Minimal on-device UI | **PLACEHOLDER** — the dedicated settings/menu system isn't detailed yet. Is this driven by the UI encoder click, a separate physical button, or something else? Tell me and I'll fill this in properly. The hardware doesn't constrain the answer: the UI encoder has a click, and there are 15 spare GPIOs if a dedicated button is wanted. |
 | Display | Small onboard screen | 428×142 2.79" NV3007 TFT, 8-pin SPI/FPC, LVGL UI built in EEZ Studio |
 | Looping | Up to 6 layered tracks, auto-synced | Single loop button driving a record/play/overdub/stop state machine (track count TBD) |
 | Connectivity | USB-C, class-compliant MIDI *and* audio | Native USB (ESP32-P4 Full-Speed OTG), **MIDI only**. Recording is via the 3.5mm jack into an audio interface, not USB Audio Class |
@@ -128,7 +128,7 @@ Planned, not yet built — but the hardware for it is now on the board, which is
 
 ## Project status
 
-Actively in development, **mid-migration from ESP32-S3 to ESP32-P4**. `PINOUT.md` is written against the P4; `firmware/include/config.h` and the schematic are not yet. Until a P4 board boots, keep the S3 assignment in version control as a fallback reference.
+Actively in development, **mid-migration from ESP32-S3 to ESP32-P4**. `PINOUT.md` and the hardware are now both written against the P4 — the schematic and PCB have been rebuilt from scratch, and the board is a 4-layer 130 × 90mm design laid out to the Figma industrial design. **`firmware/include/config.h` is the only side still on the S3 map.** Until a P4 board boots, the S3 assignment stays reachable in git history as a fallback reference.
 
 Chord generation, MIDI output, and looping remain the functional focus. The onboard synthesiser is future work, but its hardware is being designed in now.
 
@@ -136,14 +136,13 @@ Chord generation, MIDI output, and looping remain the functional focus. The onbo
 
 Tracked here so they don't get rediscovered. Each is recorded in more detail in the relevant file.
 
-- **Chord key → scale degree mapping.** Physical order is settled; musical order isn't. (`PINOUT.md`)
-- **Encoder debouncing.** RC in hardware, firmware-only, or both — this changes the schematic. (`PINOUT.md`)
+- **Chord key → scale degree mapping.** Physical order is settled; musical order isn't. Note that the Figma design numbers the keys 1/3/5/7 along the bottom row and 4/2/6 along the top, which reads like an interleave but doesn't match a HiChord-style one — worth pinning down when the mapping is decided. (`PINOUT.md`)
 - **Settings / menu system.** Interaction model not defined. (this file, `firmware/CLAUDE.md`)
 - **Sample rate, bit depth, voice count, wavetable format.** (`firmware/CLAUDE.md`)
 - **Volume taper and which encoder drives it.** The *where* is decided (codec I2C); the *how* isn't. (`firmware/CLAUDE.md`)
-- **Both LDO part numbers**, subject to JLCPCB Basic Parts availability. (`lochord_hw/CLAUDE.md`)
-- **Mechanical / form factor.** Nothing captured. (`lochord_hw/CLAUDE.md`)
 - **Battery.** Presence undecided. (`PINOUT.md`, `lochord_hw/CLAUDE.md`)
+- **Where the USB-C and headphone jack should actually be.** The Figma layout leaves no edge margin for either; both were placed where they fit rather than where the industrial design asked. (`lochord_hw/CLAUDE.md`)
+- **The display's FPC pin order and tail exit**, and the joystick's FPC pin order. Both are assumptions in the current board. (`lochord_hw/CLAUDE.md`, "Before you order a board")
 
 ### Closed decisions
 
@@ -157,3 +156,8 @@ Don't reopen these without a reason, and don't let stale docs or old conversatio
 - **Volume control location** — ES8388 registers over I2C, not firmware gain, not a physical pot.
 - **Switch type** — Kailh Choc v1, hand-soldered.
 - **USB Audio Class** — not implemented. Aux cable into an audio interface instead.
+- **Codec I2C address** — `0x10`, set by strapping the ES8388's `CE` pin low through a 10k resistor.
+- **Encoder debouncing** — firmware-first, with 10nF RC caps fitted as DNP footprints on the six A/B lines so hardware debouncing needs no respin.
+- **Both LDOs** — AMS1117-3.3 (SOT-223) for the digital rail, LP5907MFX-3.3 (SOT-23-5) behind a ferrite for the analogue rail.
+- **Layer count** — 4 layers, with a solid ground plane and a solid 3V3 plane. Not a 2-layer board, and *not* a split/moated analogue ground.
+- **Board outline** — 130 × 90mm, 5mm corner radius, from the Figma industrial design at 10px = 1mm.

@@ -2,7 +2,7 @@
 
 Single source of truth for every net that crosses the firmware ↔ hardware boundary. `firmware/include/config.h` and the `lochord_hw` schematic must both match this file — if either disagrees with it, that side is out of date, not this file.
 
-**Status:** this file has been rewritten for the **ESP32-P4** migration. It supersedes the previous ESP32-S3-WROOM-1 assignment entirely — every GPIO number on the board changes. Neither `firmware/include/config.h` nor the schematic matches it yet; see "Migration delta" at the bottom for what has to change on each side.
+**Status:** this file is written for the **ESP32-P4** and supersedes the previous ESP32-S3-WROOM-1 assignment entirely — every GPIO number on the board changed. **The schematic and PCB now match this file.** `firmware/include/config.h` does not yet; see "Migration delta" at the bottom for what is left on the firmware side.
 
 **Verification status.** Every pad number, GPIO number, and alternate function in this file has been checked line by line against **WT0132P4-A1 datasheet v2.3** (section 3.2 pin description, Figure 7 pin layout, Figure 9 dimensions) and against the **ESP32-P4 chip revision v1.3 datasheet** for the peripheral-level claims (strapping, ADC channels, SPI2 IO_MUX, USB PHYs). There are no `verify` rows left. Re-run the check if the module datasheet revs past v2.3.
 
@@ -12,7 +12,7 @@ One thing that check settled, because it is stated wrongly in several places onl
 
 Target module is the **WT0132P4-A1-N16R32** — Wireless-Tag's castellated ESP32-P4 core board: 16MB flash, 32MB PSRAM stacked in-package, 25.00 × 20.00mm, 3.3mm tall (0.8mm carrier PCB + 2.5mm shield can), 82 pads across all four edges, no thermal pad.
 
-Footprint numbers from Figure 9, for the KiCad footprint: **1.00mm pad pitch**, pad 0.56mm wide × 1.80mm long, first pad centre 1.22mm in from the corner on both the bottom edge and the left edge. Supply is **4.8–5.5V on pad 41 with 1A typical draw** (section 4.3) — see "Power".
+Footprint numbers from Figure 9, for the KiCad footprint: **1.00mm pad pitch**, pad 0.56mm wide × 1.80mm long, and **1.22mm from the module corner to the near *edge* of the first pad — which puts the first pad *centre* 1.50mm in** (1.22 + 0.56/2). The 1.50mm figure is the one to build to, and it is the only one that closes: 1.5 + 22×1.0 + 1.5 = 25.00mm across the 23-pad long edges, and 1.5 + 17×1.0 + 1.5 = 20.00mm across the 18-pad short edges. An earlier revision of this file read 1.22mm as the pad centre; that was wrong and produced an asymmetric pad row. Supply is **4.8–5.5V on pad 41 with 1A typical draw** (section 4.3) — see "Power".
 
 Two consequences worth stating up front, because they remove constraints the S3 design was built around:
 
@@ -77,13 +77,15 @@ Placed on pads 43–49: seven consecutive top-edge pads, the module edge that fa
 
 | Button | Position | Key size | GPIO | Pad | Sch. ref |
 |---|---|---|---|---|---|
-| 1 | Bottom row, 1st from left | 1u w × 2u h | 44 | 43 | SW6 |
-| 2 | Bottom row, 2nd from left | 1u w × 2u h | 45 | 44 | SW7 |
-| 3 | Bottom row, 3rd from left | 1u w × 2u h | 46 | 45 | SW9 |
-| 4 | Bottom row, 4th from left | 1u w × 2u h | 47 | 46 | SW8 |
-| 5 | Top row, left | 1.5u w × 1u h | 48 | 47 | SW10 |
-| 6 | Top row, centre | 1u w × 1u h | 49 | 48 | SW11 |
-| 7 | Top row, right | 1.5u w × 1u h | 50 | 49 | SW12 |
+| 1 | Bottom row, 1st from left | 1u w × 2u h | 44 | 43 | SW3 |
+| 2 | Bottom row, 2nd from left | 1u w × 2u h | 45 | 44 | SW4 |
+| 3 | Bottom row, 3rd from left | 1u w × 2u h | 46 | 45 | SW5 |
+| 4 | Bottom row, 4th from left | 1u w × 2u h | 47 | 46 | SW6 |
+| 5 | Top row, left | 1.5u w × 1u h | 48 | 47 | SW7 |
+| 6 | Top row, centre | 1u w × 1u h | 49 | 48 | SW8 |
+| 7 | Top row, right | 1.5u w × 1u h | 50 | 49 | SW9 |
+
+Reference designators were renumbered when the board was rebuilt for the P4 — SW1/SW2 are EN/BOOT, SW3–SW9 are the chord keys in physical order, SW10 is the loop key, and the encoders are RE1–RE3. The old scattered numbering (SW6, SW7, SW9, SW8, …) is gone.
 
 Ascending GPIO order runs bottom-left → bottom-right, then top-left → top-right, so `buttonPins[]` index order and physical position match by construction. **Wire the switches to match this table** — it is a specification, not an assumption.
 
@@ -97,19 +99,19 @@ Note for anyone who later wants ADC2: **the module datasheet's ADC2 channel numb
 
 | Signal | GPIO | Pad | Notes |
 |---|---|---|---|
-| Loop button (1u, Choc v1) | 51 | 50 | Sch. ref SW14. Drives record/play/overdub/stop |
+| Loop button (1u, Choc v1) | 51 | 50 | Sch. ref SW10. Drives record/play/overdub/stop |
 
 Continues the chord-button run, so all 8 keys sit on 8 adjacent top-edge pads. Not a strapping pin — a plain switch-to-GND with an internal pull-up, no special handling. (The S3 design had this on IO46 with a long warning attached about its reset-time pull-down; that warning does not carry over and should not be copied forward.)
 
 ## Rotary encoders (3×, ALPS EC11E15244G1, clickable)
 
-All three on the right edge, matching the mockup's encoder column. Each of the 9 signals carries an external pull-up (R6–R14); the A/B pins additionally want RC debouncing if contact bounce proves troublesome.
+All three on the module's **right edge** (pads 24–41 in module-local terms). Note that the module is fitted rotated 270°, so that edge physically faces the *bottom* of the board while the encoders themselves sit in a column to the module's right — the pad grouping is still contiguous, the traces just take a short dog-leg. See `lochord_hw/CLAUDE.md`, "Why the module is rotated 270°", for why that rotation won. Each of the 9 signals carries an external 10k pull-up (R5–R13); the A/B pins additionally want RC debouncing if contact bounce proves troublesome.
 
 | Encoder | Role | Pin A | Pin B | Switch | Pads | Sch. ref |
 |---|---|---|---|---|---|---|
-| 1 | **UI navigation** (menu/parameter select) | 39 | 40 | 41 | 36, 37, 38 | SW15 |
-| 2 | **Control 1** (e.g. BPM) | 28 | 29 | 30 | 24, 25, 26 | SW3 |
-| 3 | **Control 2** (e.g. strum amount) | 31 | 32 | 33 | 27, 28, 29 | SW13 |
+| 1 | **UI navigation** (menu/parameter select) | 39 | 40 | 41 | 36, 37, 38 | RE1 |
+| 2 | **Control 1** (e.g. BPM) | 28 | 29 | 30 | 24, 25, 26 | RE2 |
+| 3 | **Control 2** (e.g. strum amount) | 31 | 32 | 33 | 27, 28, 29 | RE3 |
 
 None of these are strapping pins, so unlike the S3 map there is no "do not put an encoder here" exclusion to observe. The external pull-ups are safe on all nine.
 
@@ -117,7 +119,7 @@ The encoders occupy two runs on the right edge, not one: pads 24–29 (encoders 
 
 GPIO28–33 are also the P4's *alternate* SPI2 mapping (`SPI2 CS/D/CK/Q/HOLD/WP`). Nothing on this board uses that mapping — the display is on the IO_MUX set, GPIO7–11 — so there is no conflict, but don't let the datasheet's pin-function text suggest these pads are reserved.
 
-Encoder debouncing strategy (RC vs firmware-only vs both) is still open — record the decision here once made, since fitting RC changes the schematic.
+**Encoder debouncing — decided.** Firmware-first, with the hardware option kept open at zero cost: the six A/B lines each carry a **10nF capacitor footprint to GND (C27–C32), fitted but marked DNP**. Debounce in firmware; if contact bounce proves troublesome on real hardware, populate the caps and you have a ~100µs RC with the 10k pull-ups, without a board respin. This is the reason the decision no longer blocks the schematic.
 
 ## Joystick (Nintendo Switch module, 5-pin 0.5mm FPC)
 
@@ -167,8 +169,9 @@ The P4's PPA (pixel processing accelerator) and 2D-DMA can accelerate LVGL blits
 | I2S DIN | — | — | **Not fitted.** ES8388 `ADCDAT` left unconnected — see below |
 | Codec I2C SDA | 0 | 71 | 4.7k pull-up to 3V3 |
 | Codec I2C SCL | 1 | 72 | 4.7k pull-up to 3V3 |
-| Codec RESET | 19 | 77 | Active-low. Static line — placement is not critical |
-| Codec CE (I2C address select) | — | — | Strapped, not a GPIO. Tie to set address 0x10 or 0x11 — record which once chosen |
+| Codec CE (I2C address select) | — | — | **Strapped low through R24 (10k to GND) → 7-bit I2C address `0x10`.** Not a GPIO |
+
+**The ES8388 has no hardware reset pin.** An earlier revision of this file assigned GPIO19 (pad 77) as an active-low codec RESET. That was wrong — the 28-pin QFN has no such pin, and reset is a *register* operation (register 0x00 bit 7, `SCPReset`). **GPIO19 / pad 77 is therefore free and has moved to the spares list.** Firmware resets the codec over I2C as the first step of init; there is nothing to toggle in hardware.
 
 **The ADC is deliberately unused.** The ES8388 is a full codec and brings a stereo ADC, mic preamps, and an input mixer. LoChord has no audio input path, so `ADCDAT`, `LIN*`/`RIN*`, and the mic bias pin are all left unconnected, and the ADC is powered down during I2C init rather than left running. This is a known cost of choosing a codec over a discrete DAC — it buys the integrated headphone amp and hardware volume, and the input half is dead weight. Do not wire a line-in jack "just in case"; if that changes, it comes back here as a real decision with its own pins and its own analogue layout.
 
@@ -206,7 +209,9 @@ Recording into a computer is over an aux cable into an audio interface, not USB.
 
 This is the single biggest practical win of the P4 migration and the fix for the S3 board's worst problem. On the S3, TinyUSB claimed GPIO19/20 for USB MIDI and you lost USB-Serial-JTAG and pin-JTAG simultaneously, leaving `printf`-over-CDC as the only debug channel. On the P4 these are **physically separate PHYs**: USB MIDI runs on GPIO26/27 while a live JTAG debugger and serial console run concurrently on GPIO24/25. Breakpoints, single-stepping, and memory inspection are available with MIDI active.
 
-A 4-pin 0.1" (or JST-SH) header is enough — this is a bring-up and development connector, not a user-facing port, so it does not need a USB-C receptacle of its own.
+A 4-pin 0.1" (or JST-SH) header is enough — this is a bring-up and development connector, not a user-facing port, so it does not need a USB-C receptacle of its own. Fitted as `J2`, a 1×4 2.54mm header on the top face, standing vertically in the clear corridor between the headphone-jack column and the left edge of the chord pad (board-relative 46.70, 64.50 for pin 1). It is outside every keycap footprint, so it stays reachable with the board assembled and with caps fitted. Pin order top to bottom is **3V3, GND, D−, D+**, and those four names are on the front silkscreen beside the pins.
+
+**UART0 (GPIO37/38, pads 34/35) is brought out to test pads `TP3`/`TP4`.** The bootloader download port is reserved either way, and two pads make it probeable without adding a second connector.
 
 The dedicated High-Speed OTG pads (16/17) go to **test pads only**. Nothing uses them: USB MIDI needs nothing beyond Full-Speed. They exist so that a future USB Audio Class experiment is not blocked by the PCB, at the cost of two test pads.
 
@@ -229,8 +234,8 @@ The module takes **5V** and regulates internally. This inverts the S3 design, wh
 | Rail | Source | Feeds |
 |---|---|---|
 | 5V | USB-C VBUS | Module VCC (pad 41), both LDOs below |
-| 3V3 digital | LDO from 5V | LCD, backlight driver, joystick, ES8388 DVDD, I2C pull-ups, power LED |
-| 3V3 analogue | **Separate low-noise LDO** from 5V | ES8388 AVDD and PVDD only |
+| 3V3 digital | `U2` AMS1117-3.3, SOT-223 | LCD, backlight driver, joystick, ES8388 **DVDD and PVDD**, I2C pull-ups, power LED |
+| 3V3 analogue | `U3` LP5907MFX-3.3, SOT-23-5, through ferrite `FB1` | ES8388 **AVDD and HPVDD** only |
 
 Three things that are not optional:
 
@@ -238,7 +243,9 @@ Three things that are not optional:
 2. **`ESP_LDO_VO4` (pad 32) is a trap.** The module exposes it and it looks like free 3V3 sitting right there, but it is the P4's own internal LDO: 0.2A maximum, and it carries digital core switching noise. Do not hang the backlight on it. Do not hang anything analogue on it. Use it for nothing.
 3. **The USB current budget must be done before layout, not after.** The module datasheet specifies the external supply should source ~1A. A plain USB 2.0 host port guarantees 500mA. A P4 at 360MHz with 32MB PSRAM, the LCD backlight, and the headphone amp can plausibly exceed that on transients — and this is a device whose whole purpose is being plugged into a laptop. Mitigations, cheapest first: generous bulk capacitance (≥100µF plus ceramics), clock the P4 down (MIDI plus a 428×142 LVGL UI does not need 360MHz), and read the USB-C CC resistors to detect whether the source advertises 1.5A/3.0A before unlocking full clocks and backlight brightness.
 
-`R1`/`R2` remain the USB-C CC pull-downs. Battery presence is still undecided.
+**`PVDD` is the ES8388's digital I/O supply, not an analogue rail.** An earlier revision of this file put `AVDD` and `PVDD` on the analogue LDO. That is wrong: per the datasheet pin table, `DVDD` is the digital core supply and `PVDD` is the digital *I/O* supply — both must sit on the same 3V3 rail as the host's I/O. The analogue rail feeds **`AVDD` (analogue supply) and `HPVDD` (headphone driver supply)**.
+
+`R2`/`R3` are the USB-C CC pull-downs (5.1k). Battery presence is still undecided.
 
 ## Spares
 
@@ -247,12 +254,12 @@ Everything not assigned above. The pin squeeze that drove this migration is gone
 | GPIO | Pad | Suitability |
 |---|---|---|
 | 2, 3, 4, 5 | 55–58 | Unrestricted. These four are the complete pin-JTAG set (MTCK/MTDI/MTMS/MTDO) — kept free so that option survives |
-| 20, 21, 22, 23 | 78–81 | Unrestricted. All four are ADC1 channels (CH4–CH7), so this is where a second analogue control would go |
+| 19, 20, 21, 22, 23 | 77–81 | Unrestricted. All five are ADC1 channels (CH3–CH7), so this is where a second analogue control would go. GPIO19 landed here when the phantom codec RESET was removed |
 | 34 | 30 | JTAG source select, floats at reset. Fine as an input or output — **prefer not to fit a permanent pull-up** |
 | 42, 43 | 39, 40 | Unrestricted |
 | 52, 53, 54 | 51, 52, 54 | Unrestricted. Confirmed broken out; also ADC2_CH3/CH4/CH5 and the analogue comparator inputs |
 
-That is **14** genuinely free GPIOs after everything is assigned, against 4 on the S3. Consequences:
+That is **15** genuinely free GPIOs after everything is assigned, against 4 on the S3. Consequences:
 
 - **The I2C expander evaluation is closed.** TCA9555/PCF8575 was only ever a workaround for S3 pin starvation. All 8 keys are on direct GPIO with internal pull-ups and stay there.
 - **The encoder-switch resistor-ladder workaround is closed.** Same reason. Delete it from any plan that still carries it.
@@ -268,17 +275,20 @@ Everything below changes together. Per the commit convention this is a `fw+hw:` 
 - Joystick moves to `analogRead` on ADC1 (GPIO16/17); backlight stays `ledcAttach`/`ledcWrite`. Same Arduino APIs either way.
 - The `native` host-test environment is unaffected.
 
-**Hardware (`lochord_hw.kicad_sch` / `.kicad_pcb`)**
-- **Replace the module footprint.** ESP32-S3-WROOM-1 (18 × 25.5mm, 40 pads + EPAD, 3 edges, 1.27mm pitch) → WT0132P4-A1 (25.00 × 20.00mm, 82 pads, 4 edges, no thermal pad, 1.00mm pitch, 0.56 × 1.80mm pads, first pad 1.22mm in from the corner). Different outline, different pad map, nothing survives.
-- **Rewire all 7 chord buttons and the loop button** to the GPIOs above.
-- **Rewire all 3 encoders.** Unlike the S3 revision, these do *not* keep their existing nets — every encoder pin moves.
-- **Change the switch footprints from Choc v2 to Choc v1** — see `lochord_hw/CLAUDE.md`.
-- **Add the ES8388 block**: codec, I2C pull-ups, reset line, AC coupling caps to the jack, and its own analogue LDO.
-- **Rebuild the power tree**: `LD1117S33` out, 5V straight to module VCC, two new LDOs (digital + analogue).
-- **Add the 4-pin debug header** on GPIO24/25 + 3V3 + GND.
-- **Add test pads** for USB_DM/USB_DP (pads 16/17).
-- **Add the LCD FPC connector** (8-pin) and backlight driver on the new pins.
-- **Add the joystick FPC connector** (5-pin, 0.5mm pitch) on the new pins.
-- EN keeps `SW1` + `C5` but drops `R3` — the module provides the pull-up.
+**Hardware (`lochord_hw.kicad_sch` / `.kicad_pcb`) — done**
 
-**Keep the S3 map in version control alongside this one until a P4 board actually boots.** It is the only working reference if the migration stalls.
+The schematic and PCB were rebuilt against this file. For the record, what changed:
+
+- **Module footprint replaced.** ESP32-S3-WROOM-1 → `lochord:WT0132P4-A1` (25.00 × 20.00mm, 82 pads, 1.00mm pitch, four edges, no thermal pad). Land pattern 0.60 × 2.00mm, 0.60mm under the module body and 1.40mm proud of it so a hand-solder fillet is visible from the side.
+- **All 7 chord buttons, the loop button and all 3 encoders rewired** to the GPIOs above. No net survived from the S3 revision.
+- **Switch footprints are Choc v1** — `SW_Kailh_Choc_V1_2.00u` **placed at 90°** for the four vertical 2u bottom keys, `..._1.50u` for the two wide top keys, `..._1.00u` for the centre top key and the loop key. Do not use the `..._2.00u_90deg` variant here; see "Choc `_90deg` footprints rotate the keycap, not the switch" in `lochord_hw/CLAUDE.md`.
+- **ES8388 block added**: codec, 4.7k I2C pull-ups, 33Ω series damping on all four I2S lines, `CE` strapped low for address `0x10`, VREF/VMID/ADCVREF decoupling, 220µF output coupling into the jack.
+- **Power tree rebuilt**: `LD1117S33` gone; 5V straight from USB-C VBUS to module pad 41; `U2` AMS1117-3.3 for the digital rail and `U3` LP5907MFX-3.3 (through ferrite `FB1`) for the analogue rail.
+- **Debug header `J2`** on GPIO24/25 + 3V3 + GND, plus `TP1`/`TP2` for the High-Speed USB PHY pads and `TP3`/`TP4` for UART0.
+- **LCD FPC `J4`** (8-way 0.5mm) and **joystick FPC `J3`** (5-way 0.5mm) added on the new pins.
+- **EN keeps `SW1` + `C1`** and drops the old external pull-up — the module provides it.
+- **USB-C gained ESD protection** (`U4`, USBLC6-2SC6), which the S3 revision did not have.
+
+**Firmware is the only side still outstanding.**
+
+**Keep the S3 map in version control alongside this one until a P4 board actually boots.** It is the only working reference if the migration stalls — and it is now only reachable through git history, since the schematic and PCB have been rebuilt.
