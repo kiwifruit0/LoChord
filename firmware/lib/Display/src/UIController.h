@@ -21,6 +21,9 @@ public:
 
   void setArpStrumMode(bool arpOn, bool strumOn);
 
+  void setBpm(int bpm);
+
+  void populateSettings();
 private:
   Display &display_;
 

@@ -31,7 +31,7 @@ void setup() {
     buttons[i].begin(buttonPins[i]);
   };
 
-  encoder.begin(PIN_ENCODER_A, PIN_ENCODER_B, PIN_ENCODER_BUTTON);
+  encoder.begin(PIN_ENCODER_UI_A, PIN_ENCODER_UI_B, PIN_ENCODER_UI_SW);
 
   joystick.begin(PIN_JOYSTICK_UD, PIN_JOYSTICK_LR, PIN_JOYSTICK_BUTTON);
   display.begin();

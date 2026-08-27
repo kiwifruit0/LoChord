@@ -1,9 +1,10 @@
 {
   "navigation": {
     "selectedUserPageObject": "[lochord.eez-project]:/userPages/0",
-    "selectedStyleObject": "[lochord.eez-project]:/lvglStyles/styles/2",
+    "selectedUserWidgetObject": "[lochord.eez-project]:/userWidgets/0",
+    "selectedStyleObject": "[lochord.eez-project]:/lvglStyles/styles/7",
     "selectedThemeObject": "[lochord.eez-project]:/themes/2",
-    "selectedThemeColorObject": "[lochord.eez-project]:/colors/5",
+    "selectedThemeColorObject": "[lochord.eez-project]:/colors/9",
     "subnavigationSelectedItems": {}
   },
   "layoutModel": {
@@ -24,7 +25,7 @@
           },
           {
             "type": "border",
-            "selected": 3,
+            "selected": 0,
             "size": 240,
             "location": "right",
             "children": [
@@ -72,6 +73,7 @@
           },
           {
             "type": "border",
+            "selected": 3,
             "size": 154.5,
             "location": "bottom",
             "children": [
@@ -150,7 +152,6 @@
                   "type": "tabset",
                   "id": "#b143457e-499c-489b-8afd-7650967fb692",
                   "weight": 1,
-                  "selected": 1,
                   "enableClose": false,
                   "children": [
                     {
@@ -192,21 +193,31 @@
             {
               "type": "tabset",
               "id": "EDITORS",
-              "weight": 40.78406253657815,
+              "weight": 43.313982993392635,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
               "children": [
                 {
                   "type": "tab",
-                  "id": "#e102135b-a3fd-4c7d-8862-c44058feb38f",
-                  "name": "Settings",
+                  "id": "#25db2d2e-7ce1-4d60-b915-cdb619e4ab80",
+                  "name": "SettingsCell",
                   "component": "editor",
                   "config": {
-                    "objectPath": "[lochord.eez-project]:/settings",
-                    "subObjectPath": "[lochord.eez-project]:/settings",
+                    "objectPath": "[lochord.eez-project]:/userWidgets/0",
                     "permanent": false
                   },
-                  "icon": "material:settings"
+                  "icon": "svg:user_widget"
+                },
+                {
+                  "type": "tab",
+                  "id": "#dba5ac45-050d-420b-8284-2b6f78912593",
+                  "name": "settings",
+                  "component": "editor",
+                  "config": {
+                    "objectPath": "[lochord.eez-project]:/userPages/1",
+                    "permanent": true
+                  },
+                  "icon": "svg:page"
                 },
                 {
                   "type": "tab",
@@ -215,16 +226,17 @@
                   "component": "editor",
                   "config": {
                     "objectPath": "[lochord.eez-project]:/userPages/0",
-                    "permanent": false
+                    "permanent": true
                   },
                   "icon": "svg:page"
                 }
-              ]
+              ],
+              "active": true
             },
             {
               "type": "tabset",
               "id": "#00adeab0-f74d-4d26-bdc0-629f6d2f7bc8",
-              "weight": 38.51585798908931,
+              "weight": 35.985937532274846,
               "children": [
                 {
                   "type": "tab",
@@ -234,8 +246,7 @@
                   "enableClose": false,
                   "icon": "svg:properties"
                 }
-              ],
-              "active": true
+              ]
             }
           ]
         }
@@ -1053,25 +1064,23 @@
       "selectionBack": {
         "0": {
           "0": {
-            "0": {},
-            "1": {
-              "1": {}
-            },
             "2": {
-              "2": {
-                "0": {}
-              },
-              "3": {}
+              "2": {},
+              "3": {
+                "0": {
+                  "$selected": true
+                }
+              }
             }
           }
         }
       },
       "transform": {
         "translate": {
-          "x": -313.7603643578647,
-          "y": -79.8803706709956
+          "x": -365.29313347199684,
+          "y": -172.55731508725648
         },
-        "scale": 1
+        "scale": 1.5
       },
       "timeline": {
         "isEditorActive": false,
@@ -1082,14 +1091,61 @@
     },
     "[lochord.eez-project]:/lvglStyles/styles[tree-state]": {
       "0": {},
-      "1": {
+      "1": {},
+      "2": {},
+      "3": {},
+      "4": {},
+      "6": {},
+      "7": {
         "$selected": true
+      }
+    },
+    "[lochord.eez-project]:/userPages/1[flow-state]": {
+      "selectionFront": {},
+      "selectionBack": {
+        "0": {
+          "0": {
+            "1": {
+              "0": {
+                "$selected": true
+              }
+            }
+          }
+        }
       },
-      "2": {
-        "$selected": true
+      "transform": {
+        "translate": {
+          "x": -426.8712797619048,
+          "y": -120.97358630952377
+        },
+        "scale": 1.5
       },
-      "3": {
-        "$selected": true
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[lochord.eez-project]:/userWidgets/0[flow-state]": {
+      "selectionFront": {},
+      "selectionBack": {
+        "0": {
+          "2": {}
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -189.29241903929343,
+          "y": -111.91344696969497
+        },
+        "scale": 1.5
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
       }
     }
   },
@@ -1112,7 +1168,7 @@
   ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,
-  "flowZoom": 1,
+  "flowZoom": 1.5,
   "implementationLanguage": "C",
   "openDialogDefaultPath": "/home/kiwi/Downloads/PressStart2P-Regular.ttf"
 }

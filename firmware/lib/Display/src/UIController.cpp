@@ -1,6 +1,7 @@
 #include "UIController.h"
 #include "device/usbd.h"
 #include "screens.h"
+#include <string>
 
 UIController::UIController(Display &display)
     : display_(display) {}
@@ -48,11 +49,24 @@ void UIController::clearJoystickMatrix() {
 
 void UIController::setArpStrumMode(bool arpOn, bool strumOn) {
   if (!arpOn && !strumOn) {
-    lv_label_set_text(objects.arp_strum_label, "OFF");
+    lv_obj_clear_state(objects.arp_label, LV_STATE_CHECKED);
+    lv_obj_clear_state(objects.strum_label, LV_STATE_CHECKED);
   } else if (arpOn) {
-    lv_label_set_text(objects.arp_strum_label, "ARP");
+    lv_obj_add_state(objects.arp_label, LV_STATE_CHECKED);
   } else if (strumOn) {
-    lv_label_set_text(objects.arp_strum_label, "STRUM");
+    lv_obj_add_state(objects.strum_label, LV_STATE_CHECKED);
   }
+}
 
+void UIController::setBpm(int bpm) {
+  lv_label_set_text(objects.bpm_label, std::to_string(bpm).c_str());
+}
+
+void UIController::populateSettings() {
+  // toggles
+  const char *objText = "TOGGLE";
+
+  lv_label_set_text(objects.settings_cell1__settings_category_label, objText);
+  lv_label_set_text(objects.settings_cell2__settings_category_label, objText);
+  lv_label_set_text(objects.settings_cell3__settings_category_label, objText);
 }
